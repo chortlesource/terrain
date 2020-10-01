@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// terrain - terrain.hpp
+// terrain - sdlinterface.hpp
 //
 // Copyright (c) 2020 Christopher M. Short
 //
@@ -21,43 +21,22 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
-#ifndef _TERRAIN_HPP
-#define _TERRAIN_HPP
+#ifndef _SDLINTERFACE_HPP
+#define _SDLINTERFACE_HPP
 
 
 /////////////////////////////////////////////////////////////
-// DEPENDENCIES / STANDARD LIBS
+// DEPENDENCIES
 //
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
-#include <string>
+// Standard Libraries
 
 
 /////////////////////////////////////////////////////////////
-// APPLICATION DATA
+// SDLINTERFACE Class
 //
-
-static const std::string _APP_NAME    = "terrain";
-static const std::string _APP_VERSION = "0.0.1-ALPHA";
-static const std::string _APP_AUTHOR  = "C. M. Short";
-static const std::string _APP_SOURCE  = "http://www.github.com/chortlesoft/terrain";
-static const int _APP_WIDTH  = 800;
-static const int _APP_HEIGHT = 600;
-
-/////////////////////////////////////////////////////////////
-// LOCAL INCLUDES
-//
-
-// Utilities
-#include "util/debug.hpp"
-#include "util/cliparse.hpp"
-#include "util/timer.hpp"
-#include "util/profiler.hpp"
-
-#include "window.hpp"
-#include "system.hpp"
+// The SDLINTERFACE interprets SDL Events and does something
+// about them
 
 
-#endif // _TERRAIN_HPP
+#endif // _SDLINTERFACE_HPP

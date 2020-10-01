@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// terrain - terrain.hpp
+// terrain - window.hpp
 //
 // Copyright (c) 2020 Christopher M. Short
 //
@@ -21,43 +21,46 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
-#ifndef _TERRAIN_HPP
-#define _TERRAIN_HPP
+#ifndef _WINDOW_HPP
+#define _WINDOW_HPP
 
 
 /////////////////////////////////////////////////////////////
-// DEPENDENCIES / STANDARD LIBS
+// DEPENDENCIES
 //
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
+// Standard Libraries
+#include <memory>
 #include <string>
 
 
 /////////////////////////////////////////////////////////////
-// APPLICATION DATA
+// WINDOW Class
 //
-
-static const std::string _APP_NAME    = "terrain";
-static const std::string _APP_VERSION = "0.0.1-ALPHA";
-static const std::string _APP_AUTHOR  = "C. M. Short";
-static const std::string _APP_SOURCE  = "http://www.github.com/chortlesoft/terrain";
-static const int _APP_WIDTH  = 800;
-static const int _APP_HEIGHT = 600;
-
-/////////////////////////////////////////////////////////////
-// LOCAL INCLUDES
-//
-
-// Utilities
-#include "util/debug.hpp"
-#include "util/cliparse.hpp"
-#include "util/timer.hpp"
-#include "util/profiler.hpp"
-
-#include "window.hpp"
-#include "system.hpp"
+// The WINDOW Class is a container for the SDL_Window and
+// SDL_Renderer for garbage collection and convenience
 
 
-#endif // _TERRAIN_HPP
+class WINDOW {
+  using WINDOW_PTR = std::shared_ptr<SDL_Window>;
+  using RENDER_PTR = std::shared_ptr<SDL_Renderer>;
+
+public:
+  // Public WINDOW methods
+  void initialize();
+  void update();
+  void finalize();
+
+  SDL_Window*   get_window();
+  SDL_Renderer* get_render();
+
+private:
+  // Private WINDOW attributes
+  bool       initialized;
+  WINDOW_PTR windowptr;
+  RENDER_PTR renderptr;
+
+};
+
+
+#endif // _WINDOW_HPP

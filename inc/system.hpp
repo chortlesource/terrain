@@ -49,12 +49,13 @@ enum class STATE {
 // initialize and finalize the application components
 
 class SYSTEM {
+  using WINDOW_PTR    = std::shared_ptr<WINDOW>;
   using TIMER_PTR     = std::shared_ptr<TIMER>;
   using PROFILER_PTR  = std::shared_ptr<PROFILER>;
 
 public:
   // Public SYSTEM class methods
-  SYSTEM() : initialized(false), timer(nullptr), profiler(nullptr) {};
+  SYSTEM() : initialized(false), window(nullptr), timer(nullptr), profiler(nullptr) {};
   ~SYSTEM() {};
 
   void initialize();
@@ -64,8 +65,9 @@ public:
 private:
   // Private SYSTEM class attributes
   bool          initialized;
-  
+
   STATE         state;
+  WINDOW_PTR    window;
   TIMER_PTR     timer;
   PROFILER_PTR  profiler;
 

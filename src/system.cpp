@@ -30,9 +30,28 @@
 
 
 void SYSTEM::initialize() {
+  // Initialize SDL
+  if(SDL_Init(SDL_INIT_VIDEO) != 0) {
+    DEBUG("SDL_INIT_ERROR: ", SDL_GetError());
+    return;
+  }
+
+  if((IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG) != IMG_INIT_PNG) {
+    DEBUG("SDL_IMG_INIT_ERROR: ", IMG_GetError());
+    return;
+  }
+
+  if(TTF_Init() != 0) {
+    DEBUG("[SDL_TTF_INIT_ERROR]: ", TTF_GetError());
+    return;
+  }
+
   // Initialize the SYSTEM components
   timer       = std::make_shared<TIMER>();
   profiler    = std::make_shared<PROFILER>();
+  window      = std::make_shared<WINDOW>();
+
+  window->initialize();
 
   state       = STATE::RUN;
   initialized = true;
@@ -55,6 +74,7 @@ void SYSTEM::execute() {
 
     // Fix the timestep
     while(elapsed >= rate) {
+      window->update();   // Refresh the display
       profiler->fps();    // Profile the FPS
       elapsed -= rate;
     }
@@ -70,6 +90,9 @@ void SYSTEM::finalize() {
   initialized = false;
 
   // Free the shared pointers
+  window->finalize();
+
+  window   = nullptr;
   profiler = nullptr;
   timer    = nullptr;
 }
