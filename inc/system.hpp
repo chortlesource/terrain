@@ -34,13 +34,35 @@
 
 
 /////////////////////////////////////////////////////////////
-// STATE Enumeration
+// STATUS Enumeration
 //
-// Used to indicate the current state of the application
+// Used to indicate the current status of the application
 
-enum class STATE {
+enum class STATUS {
   INIT, RUN, EXIT
 };
+
+
+/////////////////////////////////////////////////////////////
+// STATE Struct
+//
+// Used to store SYSTEM components for convenient distribution
+
+using WINDOW_PTR    = std::shared_ptr<WINDOW>;
+using TIMER_PTR     = std::shared_ptr<TIMER>;
+using PROFILER_PTR  = std::shared_ptr<PROFILER>;
+using SDLINTER_PTR  = std::shared_ptr<SDLINTERFACE>;
+
+struct STATE {
+  STATUS        status;
+  WINDOW_PTR    window;
+  TIMER_PTR     timer;
+  PROFILER_PTR  profiler;
+  SDLINTER_PTR  sdlinterface;
+
+  STATE() : status(STATUS::INIT), window(nullptr), timer(nullptr), profiler(nullptr), sdlinterface(nullptr) {};
+};
+
 
 /////////////////////////////////////////////////////////////
 // SYSTEM Class
@@ -49,13 +71,9 @@ enum class STATE {
 // initialize and finalize the application components
 
 class SYSTEM {
-  using WINDOW_PTR    = std::shared_ptr<WINDOW>;
-  using TIMER_PTR     = std::shared_ptr<TIMER>;
-  using PROFILER_PTR  = std::shared_ptr<PROFILER>;
-
 public:
   // Public SYSTEM class methods
-  SYSTEM() : initialized(false), window(nullptr), timer(nullptr), profiler(nullptr) {};
+  SYSTEM() {};
   ~SYSTEM() {};
 
   void initialize();
@@ -64,13 +82,8 @@ public:
 
 private:
   // Private SYSTEM class attributes
-  bool          initialized;
-
-  STATE         state;
-  WINDOW_PTR    window;
-  TIMER_PTR     timer;
-  PROFILER_PTR  profiler;
-
+  bool  initialized;
+  STATE state;
 };
 
 

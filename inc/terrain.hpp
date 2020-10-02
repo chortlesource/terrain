@@ -46,6 +46,17 @@ static const std::string _APP_SOURCE  = "http://www.github.com/chortlesoft/terra
 static const int _APP_WIDTH  = 800;
 static const int _APP_HEIGHT = 600;
 
+
+/////////////////////////////////////////////////////////////
+// FORWARDS
+//
+
+class SYSTEM;
+class TIMER;
+class PROFILER;
+class WINDOW;
+class SDLINTERFACE;
+
 /////////////////////////////////////////////////////////////
 // LOCAL INCLUDES
 //
@@ -56,8 +67,10 @@ static const int _APP_HEIGHT = 600;
 #include "util/timer.hpp"
 #include "util/profiler.hpp"
 
-#include "window.hpp"
 #include "system.hpp"
+#include "window.hpp"
+
+#include "events/sdlinterface.hpp"
 
 
 #endif // _TERRAIN_HPP

@@ -39,4 +39,30 @@
 // about them
 
 
+class SDLINTERFACE {
+private:
+  // Private SDLINTERFACE attributes
+  SDL_Event event;
+
+public:
+  // Public SDLINTERFACE methods
+  void poll(STATE& state) {
+    if(SDL_PollEvent(&event)) {
+      switch(event.type) {
+        case SDL_WINDOWEVENT:
+          switch(event.window.event) {
+            case SDL_WINDOWEVENT_CLOSE:
+              state.status = STATUS::EXIT;
+              break;
+            default:
+              break;
+          };
+        default:
+          break;
+      };
+    }
+  }
+};
+
+
 #endif // _SDLINTERFACE_HPP

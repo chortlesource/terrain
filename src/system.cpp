@@ -47,40 +47,42 @@ void SYSTEM::initialize() {
   }
 
   // Initialize the SYSTEM components
-  timer       = std::make_shared<TIMER>();
-  profiler    = std::make_shared<PROFILER>();
-  window      = std::make_shared<WINDOW>();
+  state.timer         = std::make_shared<TIMER>();
+  state.profiler      = std::make_shared<PROFILER>();
+  state.window        = std::make_shared<WINDOW>();
+  state.sdlinterface  = std::make_shared<SDLINTERFACE>();
 
-  window->initialize();
+  state.window->initialize();
 
-  state       = STATE::RUN;
-  initialized = true;
+  state.status       = STATUS::RUN;
+  initialized       = true;
 }
 
 
 void SYSTEM::execute() {
-  timer->start();
+  state.timer->start();
 
   double rate    = 0.01;
   double elapsed = 0;
 
-  while(state != STATE::EXIT) {
+  while(state.status != STATUS::EXIT) {
     // Update the timer and seek delta
-    timer->update();
-    double delta = timer->delta();
+    state.timer->update();
+    double delta = state.timer->delta();
 
     if(delta > 0.60) delta = 0.60;
     elapsed += delta;
 
     // Fix the timestep
     while(elapsed >= rate) {
-      window->update();   // Refresh the display
-      profiler->fps();    // Profile the FPS
+      state.window->update();   // Refresh the display
+      state.sdlinterface->poll(state); // poll events
+      state.profiler->fps();    // Profile the FPS
       elapsed -= rate;
     }
 
-    profiler->ups();      // Profile the UPS
-    profiler->update(timer->delta());   // Update the profiler
+    state.profiler->ups();      // Profile the UPS
+    state.profiler->update(state.timer->delta());   // Update the profiler
   };
 
 }
@@ -90,9 +92,9 @@ void SYSTEM::finalize() {
   initialized = false;
 
   // Free the shared pointers
-  window->finalize();
+  state.window->finalize();
 
-  window   = nullptr;
-  profiler = nullptr;
-  timer    = nullptr;
+  state.window   = nullptr;
+  state.profiler = nullptr;
+  state.timer    = nullptr;
 }
