@@ -48,24 +48,27 @@ enum class STATUS {
 //
 // Used to store SYSTEM components for convenient distribution
 
-using WINDOW_PTR    = std::shared_ptr<WINDOW>;
-using TIMER_PTR     = std::shared_ptr<TIMER>;
-using PROFILER_PTR  = std::shared_ptr<PROFILER>;
-using SDLINTER_PTR  = std::shared_ptr<SDLINTERFACE>;
-using CHUNK_PTR  = std::shared_ptr<CHUNK>;
+using EVENTMANAGER_PTR  = std::shared_ptr<EVENTMANAGER>;
+using WINDOW_PTR        = std::shared_ptr<WINDOW>;
+using TIMER_PTR         = std::shared_ptr<TIMER>;
+using PROFILER_PTR      = std::shared_ptr<PROFILER>;
+using SDLINTER_PTR      = std::shared_ptr<SDLINTERFACE>;
+using CHUNK_PTR         = std::shared_ptr<CHUNK>;
+
 
 struct STATE {
-  STATUS        status;
-  WINDOW_PTR    window;
-  TIMER_PTR     timer;
-  PROFILER_PTR  profiler;
-  SDLINTER_PTR  sdlinterface;
-  CHUNK_PTR     test_chunk;
+  STATUS              status;
+  EVENTMANAGER_PTR    eventmanager;
+  WINDOW_PTR          window;
+  TIMER_PTR           timer;
+  PROFILER_PTR        profiler;
+  SDLINTER_PTR        sdlinterface;
+  CHUNK_PTR           test_chunk;
 
-  unsigned int  seed;
-  bool          run;
+  unsigned int        seed;
+  bool                run;
 
-  STATE() : status(STATUS::INIT), window(nullptr), timer(nullptr), profiler(nullptr),
+  STATE() : status(STATUS::INIT), eventmanager(nullptr), window(nullptr), timer(nullptr), profiler(nullptr),
     sdlinterface(nullptr), seed(std::default_random_engine::default_seed), run(false) {};
 };
 

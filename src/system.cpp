@@ -51,6 +51,7 @@ void SYSTEM::initialize(int const& argc, const char *argv[]) {
   parse(parser);
 
   // Initialize the SYSTEM components
+  state.eventmanager  = std::make_shared<EVENTMANAGER>();
   state.timer         = std::make_shared<TIMER>();
   state.profiler      = std::make_shared<PROFILER>();
   state.window        = std::make_shared<WINDOW>();
@@ -91,6 +92,7 @@ void SYSTEM::execute() {
       elapsed -= rate;
     }
 
+    state.eventmanager->update();
     state.profiler->ups();      // Profile the UPS
     state.profiler->update(state.timer->delta());   // Update the profiler
   };
@@ -108,10 +110,11 @@ void SYSTEM::finalize() {
   state.test_chunk->finalize();
   state.window->finalize();
 
-  state.test_chunk = nullptr;
-  state.window     = nullptr;
-  state.profiler   = nullptr;
-  state.timer      = nullptr;
+  state.test_chunk   = nullptr;
+  state.window       = nullptr;
+  state.profiler     = nullptr;
+  state.timer        = nullptr;
+  state.eventmanager = nullptr;
 }
 
 

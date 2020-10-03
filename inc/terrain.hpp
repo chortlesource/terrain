@@ -52,9 +52,10 @@ static const int _APP_HEIGHT = 600;
 //
 
 class SYSTEM;
+class WINDOW;
+class EVENTMANAGER;
 class TIMER;
 class PROFILER;
-class WINDOW;
 class SDLINTERFACE;
 class CHUNK;
 
@@ -70,9 +71,14 @@ class CHUNK;
 #include "util/profiler.hpp"
 
 #include "chunks/chunk.hpp"
+
 #include "system.hpp"
 #include "window.hpp"
 
+#include "events/events.hpp"
+#include "events/listener.hpp"
+#include "events/eventqueue.hpp"
+#include "events/eventmanager.hpp"
 #include "events/sdlinterface.hpp"
 
 
