@@ -60,6 +60,8 @@ private:
   WINDOW_PTR windowptr;
   RENDER_PTR renderptr;
 
+  CHUNK      test;
+
 };
 
 

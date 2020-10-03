@@ -51,10 +51,14 @@ void WINDOW::initialize() {
     return;
   }
 
+  test.initialize(renderptr);
+
   SDL_RenderSetLogicalSize(renderptr.get(), _APP_WIDTH, _APP_HEIGHT);
   SDL_SetRenderDrawColor(renderptr.get(), 255, 255, 255, 255);
   SDL_RenderClear(renderptr.get());
   SDL_RenderPresent(renderptr.get());
+
+  initialized = true;
 }
 
 
@@ -62,9 +66,11 @@ void WINDOW::update() {
   if(!initialized)
     return;
 
-  SDL_RenderPresent(renderptr.get());
-  SDL_SetRenderDrawColor(renderptr.get(), 255, 255, 255, 255);
+  SDL_SetRenderDrawColor(renderptr.get(), 0, 0, 0, 255);
   SDL_RenderClear(renderptr.get());
+
+  test.draw(renderptr);
+  SDL_RenderPresent(renderptr.get());
 }
 
 

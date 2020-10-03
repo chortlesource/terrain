@@ -64,7 +64,7 @@ public:
     accumulator += delta;
 
     if(accumulator >= 1.0) {
-      INFO("UPS :: ", floor((ups_count / 1.0) / 1000), " FPS :: ", fps_count);
+      INFO("UPS :: ", ups_count, " FPS :: ", fps_count);
       ups_count = 0;
       fps_count = 0;
       accumulator -= 1.0;

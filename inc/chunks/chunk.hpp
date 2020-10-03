@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// terrain - sdlinterface.hpp
+// terrain - chunk.hpp
 //
 // Copyright (c) 2020 Christopher M. Short
 //
@@ -21,41 +21,44 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
-#ifndef _SDLINTERFACE_HPP
-#define _SDLINTERFACE_HPP
-
+#ifndef _CHUNK_HPP
+#define _CHUNK_HPP
 
 /////////////////////////////////////////////////////////////
-// SDLINTERFACE Class
+// DEPENDENCIES
 //
-// The SDLINTERFACE interprets SDL Events and does something
-// about them
+
+// Standard Libraries
+#include <memory>
+
+/////////////////////////////////////////////////////////////
+// CHUNK Class
+//
+// The CHUNK class procedurally generates chunks and displays
+// them to the screen
 
 
-class SDLINTERFACE {
-private:
-  // Private SDLINTERFACE attributes
-  SDL_Event event;
+class CHUNK {
+  using TEXTURE_PTR = std::shared_ptr<SDL_Texture>;
+  using RENDER_PTR = std::shared_ptr<SDL_Renderer>;
 
 public:
-  // Public SDLINTERFACE methods
-  void poll(STATE& state) {
-    if(SDL_PollEvent(&event)) {
-      switch(event.type) {
-        case SDL_WINDOWEVENT:
-          switch(event.window.event) {
-            case SDL_WINDOWEVENT_CLOSE:
-              state.status = STATUS::EXIT;
-              break;
-            default:
-              break;
-          };
-        default:
-          break;
-      };
-    }
-  }
+  CHUNK() : initialized(false), tiles(nullptr), chunk(nullptr) {};
+  ~CHUNK() {};
+
+  // Public CHUNK methods
+  void initialize(RENDER_PTR& render);
+  void draw(RENDER_PTR& render);
+  void finalize();
+
+private:
+  bool initialized;
+  TEXTURE_PTR tiles;
+  TEXTURE_PTR chunk;
+
+  std::array<SDL_Rect, 9> tile_src;
+
 };
 
 
-#endif // _SDLINTERFACE_HPP
+#endif // _CHUNK_HPP

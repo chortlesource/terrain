@@ -43,6 +43,7 @@ static const std::string _APP_NAME    = "terrain";
 static const std::string _APP_VERSION = "0.0.1-ALPHA";
 static const std::string _APP_AUTHOR  = "C. M. Short";
 static const std::string _APP_SOURCE  = "http://www.github.com/chortlesoft/terrain";
+static const std::string _TILE_PATH   = "./asset/tiles.png";
 static const int _APP_WIDTH  = 800;
 static const int _APP_HEIGHT = 600;
 
@@ -56,6 +57,7 @@ class TIMER;
 class PROFILER;
 class WINDOW;
 class SDLINTERFACE;
+class CHUNK;
 
 /////////////////////////////////////////////////////////////
 // LOCAL INCLUDES
@@ -67,6 +69,7 @@ class SDLINTERFACE;
 #include "util/timer.hpp"
 #include "util/profiler.hpp"
 
+#include "chunks/chunk.hpp"
 #include "system.hpp"
 #include "window.hpp"
 

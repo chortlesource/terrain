@@ -63,7 +63,7 @@ void SYSTEM::execute() {
   state.timer->start();
 
   double rate    = 0.01;
-  double elapsed = 0;
+  double elapsed = 0.0;
 
   while(state.status != STATUS::EXIT) {
     // Update the timer and seek delta
