@@ -51,9 +51,6 @@ void WINDOW::initialize() {
     return;
   }
 
-  test = std::make_shared<CHUNK>(0, 0);
-  test->initialize(renderptr);
-
   SDL_RenderSetLogicalSize(renderptr.get(), _APP_WIDTH, _APP_HEIGHT);
   SDL_SetRenderDrawColor(renderptr.get(), 255, 255, 255, 255);
   SDL_RenderClear(renderptr.get());
@@ -67,11 +64,9 @@ void WINDOW::update() {
   if(!initialized)
     return;
 
+  SDL_RenderPresent(renderptr.get());
   SDL_SetRenderDrawColor(renderptr.get(), 0, 0, 0, 255);
   SDL_RenderClear(renderptr.get());
-
-  test->draw(renderptr);
-  SDL_RenderPresent(renderptr.get());
 }
 
 

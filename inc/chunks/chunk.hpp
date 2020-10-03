@@ -38,13 +38,24 @@
 // CHUNK Contants
 //
 
-static const std::string _TILE_PATH   = "./asset/tiles.png";
-static const int _TILE_HEIGHT  = 32;
-static const int _TILE_WIDTH   = 32;
-static const int _CHUNK_RES    = 10;
+static const std::string _TILE_PATH   = "./asset/tiles8x8.png";
+static const int _TILE_HEIGHT  = 8;
+static const int _TILE_WIDTH   = 8;
+static const int _CHUNK_RES    = 5;
 static const int _CHUNK_HEIGHT = 64;
 static const int _CHUNK_WIDTH  = 64;
 
+static const SDL_Rect tile_map[9] = {
+  { 0 * _TILE_WIDTH, 0, _TILE_WIDTH, _TILE_HEIGHT },
+  { 1 * _TILE_WIDTH, 0, _TILE_WIDTH, _TILE_HEIGHT },
+  { 2 * _TILE_WIDTH, 0, _TILE_WIDTH, _TILE_HEIGHT },
+  { 3 * _TILE_WIDTH, 0, _TILE_WIDTH, _TILE_HEIGHT },
+  { 4 * _TILE_WIDTH, 0, _TILE_WIDTH, _TILE_HEIGHT },
+  { 5 * _TILE_WIDTH, 0, _TILE_WIDTH, _TILE_HEIGHT },
+  { 6 * _TILE_WIDTH, 0, _TILE_WIDTH, _TILE_HEIGHT },
+  { 7 * _TILE_WIDTH, 0, _TILE_WIDTH, _TILE_HEIGHT },
+  { 8 * _TILE_WIDTH, 0, _TILE_WIDTH, _TILE_HEIGHT }
+};
 
 enum class BIOME {
   GRASSLAND, SHRUBLAND, MOORLAND, BEACH,
@@ -61,11 +72,11 @@ enum class BIOME {
 
 class BASECHUNK {
 public:
-  BASECHUNK(int const& gx, int const& gy) {
+  BASECHUNK(unsigned int const& seed, int const& gx, int const& gy) {
     global_x = _CHUNK_WIDTH * gx;
     global_y = _CHUNK_HEIGHT * gx;
 
-    PERLIN perlin;
+    PERLIN perlin(seed);
 
     // Populate the noise maps
     for(int y = 0; y <_CHUNK_HEIGHT; y++) {
@@ -73,7 +84,7 @@ public:
         double nx = 1.0 /_CHUNK_WIDTH;
         double ny = 1.0 /_CHUNK_HEIGHT;
 
-        double elev = perlin.octave_noise_0_1((x + global_x) * nx * _CHUNK_RES, (y + global_y) * ny * _CHUNK_RES, 0.1, 8);
+        double elev = perlin.octave_noise_0_1((x + global_x) * nx * _CHUNK_RES, (y + global_y) * ny * _CHUNK_RES, 0.1, 10);
         double temp = perlin.octave_noise_0_1((x + global_x) * nx * _CHUNK_RES, (y + global_y) * ny * _CHUNK_RES, 1, 3);
 
         biome[y][x] = elev;
@@ -106,20 +117,19 @@ class CHUNK : public BASECHUNK {
   using RENDER_PTR = std::shared_ptr<SDL_Renderer>;
 
 public:
-  CHUNK(int const& gx, int const& gy) : BASECHUNK(gx, gy), initialized(false), tiles(nullptr), chunk(nullptr) {};
+  CHUNK(unsigned int const& seed, int const& gx, int const& gy)
+    : BASECHUNK(seed, gx, gy), initialized(false), tiles(nullptr), chunk(nullptr) {};
   ~CHUNK() {};
 
   // Public CHUNK methods
-  void initialize(RENDER_PTR& render);
-  void draw(RENDER_PTR& render);
+  void initialize(SDL_Renderer *render);
+  void draw(SDL_Renderer *render);
   void finalize();
 
 private:
   bool initialized;
   TEXTURE_PTR tiles;
   TEXTURE_PTR chunk;
-
-  std::array<SDL_Rect, 9> tile_src;
 
   BIOME get_biome(double const& b, double const& m);
 };

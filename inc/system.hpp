@@ -52,6 +52,7 @@ using WINDOW_PTR    = std::shared_ptr<WINDOW>;
 using TIMER_PTR     = std::shared_ptr<TIMER>;
 using PROFILER_PTR  = std::shared_ptr<PROFILER>;
 using SDLINTER_PTR  = std::shared_ptr<SDLINTERFACE>;
+using CHUNK_PTR  = std::shared_ptr<CHUNK>;
 
 struct STATE {
   STATUS        status;
@@ -59,8 +60,13 @@ struct STATE {
   TIMER_PTR     timer;
   PROFILER_PTR  profiler;
   SDLINTER_PTR  sdlinterface;
+  CHUNK_PTR     test_chunk;
 
-  STATE() : status(STATUS::INIT), window(nullptr), timer(nullptr), profiler(nullptr), sdlinterface(nullptr) {};
+  unsigned int  seed;
+  bool          run;
+
+  STATE() : status(STATUS::INIT), window(nullptr), timer(nullptr), profiler(nullptr),
+    sdlinterface(nullptr), seed(std::default_random_engine::default_seed), run(false) {};
 };
 
 
@@ -76,7 +82,7 @@ public:
   SYSTEM() {};
   ~SYSTEM() {};
 
-  void initialize();
+  void initialize(int const& argc, const char *argv[]);
   void execute();
   void finalize();
 
@@ -84,6 +90,10 @@ private:
   // Private SYSTEM class attributes
   bool  initialized;
   STATE state;
+
+  // Private SYSTEM class methods
+  void parse(CLIPARSE& p);
+
 };
 
 

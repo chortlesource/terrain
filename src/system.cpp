@@ -29,7 +29,7 @@
 //
 
 
-void SYSTEM::initialize() {
+void SYSTEM::initialize(int const& argc, const char *argv[]) {
   // Initialize SDL
   if(SDL_Init(SDL_INIT_VIDEO) != 0) {
     DEBUG("SDL_INIT_ERROR: ", SDL_GetError());
@@ -46,20 +46,29 @@ void SYSTEM::initialize() {
     return;
   }
 
+  // Parse the command line data
+  CLIPARSE parser(argc, argv);
+  parse(parser);
+
   // Initialize the SYSTEM components
   state.timer         = std::make_shared<TIMER>();
   state.profiler      = std::make_shared<PROFILER>();
   state.window        = std::make_shared<WINDOW>();
   state.sdlinterface  = std::make_shared<SDLINTERFACE>();
+  state.test_chunk    = std::make_shared<CHUNK>(state.seed, 0, 0);
 
   state.window->initialize();
+  state.test_chunk->initialize(state.window->get_render());
 
-  state.status       = STATUS::RUN;
+  state.status      = STATUS::RUN;
   initialized       = true;
 }
 
 
 void SYSTEM::execute() {
+  if(!initialized || !state.run)
+    return;
+
   state.timer->start();
 
   double rate    = 0.01;
@@ -76,6 +85,7 @@ void SYSTEM::execute() {
     // Fix the timestep
     while(elapsed >= rate) {
       state.window->update();   // Refresh the display
+      state.test_chunk->draw(state.window->get_render());
       state.sdlinterface->poll(state); // poll events
       state.profiler->fps();    // Profile the FPS
       elapsed -= rate;
@@ -89,12 +99,38 @@ void SYSTEM::execute() {
 
 
 void SYSTEM::finalize() {
+  if(!initialized || !state.run)
+    return;
+
   initialized = false;
 
   // Free the shared pointers
+  state.test_chunk->finalize();
   state.window->finalize();
 
-  state.window   = nullptr;
-  state.profiler = nullptr;
-  state.timer    = nullptr;
+  state.test_chunk = nullptr;
+  state.window     = nullptr;
+  state.profiler   = nullptr;
+  state.timer      = nullptr;
+}
+
+
+/////////////////////////////////////////////////////////////
+// Private SYSTEM class methods
+//
+
+void SYSTEM::parse(CLIPARSE& p) {
+  if(p.using_opt("h")) {
+    std::cout << _APP_NAME << " [v" << _APP_VERSION << "] copyright (c) " << _APP_AUTHOR << std::endl;
+    return;
+  }
+
+  if(p.size() >= 3) {
+    // Fetch seed data
+    std::string seedstr  = p.using_opt_value("-s");
+    if(!seedstr.empty())
+      state.seed = static_cast<unsigned int>(std::stoul(seedstr));
+  }
+
+  state.run = true;
 }

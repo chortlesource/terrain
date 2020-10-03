@@ -35,7 +35,7 @@ int main(const int argc, const char *argv[]) {
 
   // Initialize the system
   std::unique_ptr<SYSTEM> system = std::make_unique<SYSTEM>();
-  system->initialize();
+  system->initialize(argc, argv);
 
   // Execute the application
   system->execute();
