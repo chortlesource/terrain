@@ -44,6 +44,7 @@
 class WINDOW {
   using WINDOW_PTR = std::shared_ptr<SDL_Window>;
   using RENDER_PTR = std::shared_ptr<SDL_Renderer>;
+  using CHUNK_PTR  = std::shared_ptr<CHUNK>;
 
 public:
   // Public WINDOW methods
@@ -60,7 +61,7 @@ private:
   WINDOW_PTR windowptr;
   RENDER_PTR renderptr;
 
-  CHUNK      test;
+  CHUNK_PTR  test;
 
 };
 
