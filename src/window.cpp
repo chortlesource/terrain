@@ -31,7 +31,7 @@
 void WINDOW::initialize() {
   // Initialize the window
   std::string title = _APP_NAME + " - " + _APP_VERSION;
-  WINDOW_PTR tempwin(SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+  SDLWINDOW_PTR tempwin(SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
     _APP_WIDTH, _APP_HEIGHT, SDL_WINDOW_SHOWN), [=](SDL_Window *window){ SDL_DestroyWindow(window); });
 
   windowptr = tempwin;
@@ -41,7 +41,7 @@ void WINDOW::initialize() {
   }
 
   // Initialize the renderer
-  RENDER_PTR temprender(SDL_CreateRenderer(windowptr.get(), -1, SDL_RENDERER_ACCELERATED |
+  SDLRENDER_PTR temprender(SDL_CreateRenderer(windowptr.get(), -1, SDL_RENDERER_ACCELERATED |
     SDL_RENDERER_PRESENTVSYNC), [=](SDL_Renderer *render) { SDL_DestroyRenderer(render); });
 
   renderptr = temprender;

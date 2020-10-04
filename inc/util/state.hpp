@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// terrain - main.cpp
+// terrain - state.hpp
 //
 // Copyright (c) 2020 Christopher M. Short
 //
@@ -21,23 +21,33 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
-#include "terrain.hpp"
+#ifndef _STATE_HPP
+#define _STATE_HPP
 
 
 /////////////////////////////////////////////////////////////
-// MAIN FUNCTION
+// STATE Struct
+//
+// Used to store SYSTEM components for convenient distribution
 
-int main(const int argc, const char *argv[]) {
 
-  // Initialize the system
-  SYSTEM_PTR system = std::make_unique<SYSTEM>();
-  system->initialize(argc, argv);
+struct STATE {
+  STATUS              status;
+  WINDOW_PTR          window;
+  TIMER_PTR           timer;
+  PROFILER_PTR        profiler;
+  CHUNKVIEW_PTR       chunkviewer;
+  SDLINTER_PTR        sdlinterface;
 
-  // Execute the application
-  system->execute();
+  unsigned int        seed;
+  bool                run;
+  int                 pos_x;
+  int                 pos_y;
+  int                 zoom;
 
-  // Free memory
-  system->finalize();
+  STATE() : status(STATUS::INIT), window(nullptr), timer(nullptr), profiler(nullptr), chunkviewer(nullptr),
+    sdlinterface(nullptr), seed(std::default_random_engine::default_seed), run(false), pos_x(0), pos_y(0), zoom(1) {};
+};
 
-  return 0;
-}
+
+#endif // _STATE_HPP

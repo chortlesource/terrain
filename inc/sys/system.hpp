@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// terrain - window.hpp
+// terrain - system.hpp
 //
 // Copyright (c) 2020 Christopher M. Short
 //
@@ -21,46 +21,36 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
-#ifndef _WINDOW_HPP
-#define _WINDOW_HPP
+#ifndef _SYSTEM_HPP
+#define _SYSTEM_HPP
 
 
 /////////////////////////////////////////////////////////////
-// DEPENDENCIES
+// SYSTEM Class
 //
+// The SYSTEM class is the main container class used to
+// initialize and finalize the application components
 
-// Standard Libraries
-#include <memory>
-#include <string>
-
-
-/////////////////////////////////////////////////////////////
-// WINDOW Class
-//
-// The WINDOW Class is a container for the SDL_Window and
-// SDL_Renderer for garbage collection and convenience
-
-
-class WINDOW {
-  using WINDOW_PTR = std::shared_ptr<SDL_Window>;
-  using RENDER_PTR = std::shared_ptr<SDL_Renderer>;
+class SYSTEM {
 
 public:
-  // Public WINDOW methods
-  void initialize();
-  void update();
+  // Public SYSTEM class methods
+  SYSTEM() {};
+  ~SYSTEM() {};
+
+  void initialize(int const& argc, const char *argv[]);
+  void execute();
   void finalize();
 
-  SDL_Window*   get_window();
-  SDL_Renderer* get_render();
-
 private:
-  // Private WINDOW attributes
-  bool       initialized;
-  WINDOW_PTR windowptr;
-  RENDER_PTR renderptr;
+  // Private SYSTEM class attributes
+  bool  initialized;
+  STATE state;
+
+  // Private SYSTEM class methods
+  void parse(CLIPARSE& p);
 
 };
 
 
-#endif // _WINDOW_HPP
+#endif // _SYSTEM_HPP

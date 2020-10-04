@@ -50,20 +50,17 @@ void SYSTEM::initialize(int const& argc, const char *argv[]) {
   CLIPARSE parser(argc, argv);
   parse(parser);
 
-  // Initialize the SYSTEM components
-  state.eventmanager  = std::make_shared<EVENTMANAGER>();
-  state.chunkviewer   = std::make_shared<CHUNKVIEWER>();
+  // Allocate memory for the state components
   state.timer         = std::make_shared<TIMER>();
   state.profiler      = std::make_shared<PROFILER>();
   state.window        = std::make_shared<WINDOW>();
+  state.chunkviewer   = std::make_shared<CHUNKVIEWER>();
   state.sdlinterface  = std::make_shared<SDLINTERFACE>();
 
+  // Initialize the state components
   state.window->initialize();
   state.chunkviewer->initialize(state);
-
   state.status  = STATUS::RUN;
-  id            = state.eventmanager->new_listener_id();
-  register_listeners();
 
   initialized   = true;
 }
@@ -88,14 +85,13 @@ void SYSTEM::execute() {
 
     // Fix the timestep
     while(elapsed >= rate) {
-      state.window->update();   // Refresh the display
+      state.window->update();          // Refresh the display
       state.sdlinterface->poll(state); // poll events
       state.chunkviewer->update(state);
-      state.profiler->fps();    // Profile the FPS
+      state.profiler->fps();           // Profile the FPS
       elapsed -= rate;
     }
 
-    state.eventmanager->update();
     state.profiler->ups();      // Profile the UPS
     state.profiler->update(state.timer->delta());   // Update the profiler
   };
@@ -108,34 +104,16 @@ void SYSTEM::finalize() {
     return;
 
   initialized = false;
-  remove_listeners();
 
   // Free the shared pointers
   state.chunkviewer->finalize();
   state.window->finalize();
 
+  state.sdlinterface = nullptr;
   state.chunkviewer  = nullptr;
   state.window       = nullptr;
   state.profiler     = nullptr;
   state.timer        = nullptr;
-  state.eventmanager = nullptr;
-}
-
-
-void SYSTEM::on_notify(EVENT const& event) {
-  switch(event.type) {
-    case EVENTTYPE::SYSTEM_EVENT:
-      switch(event.system_event.type){
-        case SYSTEM_EVENT::TYPE::HALT:
-          state.status = STATUS::EXIT;
-        default:
-          break;
-      };
-      break;
-    default:
-      break;
-  }
-
 }
 
 
@@ -157,19 +135,4 @@ void SYSTEM::parse(CLIPARSE& p) {
   }
 
   state.run = true;
-}
-
-
-void SYSTEM::register_listeners() {
-  // Register the event listeners
-  std::function<void(EVENT const&)> callback =
-    [=](EVENT const& event) -> void { this->on_notify(event); };
-
-  state.eventmanager->add_listener(LISTENER(id, EVENTTYPE::SYSTEM_EVENT, callback));
-}
-
-
-void SYSTEM::remove_listeners() {
-  // Remove the event listener
-  state.eventmanager->rem_listener(LISTENER(id, EVENTTYPE::SYSTEM_EVENT, nullptr));
 }

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// terrain - main.cpp
+// terrain - window.hpp
 //
 // Copyright (c) 2020 Christopher M. Short
 //
@@ -21,23 +21,35 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
-#include "terrain.hpp"
+#ifndef _WINDOW_HPP
+#define _WINDOW_HPP
 
 
 /////////////////////////////////////////////////////////////
-// MAIN FUNCTION
+// WINDOW Class
+//
+// The WINDOW Class is a container for the SDL_Window and
+// SDL_Renderer for garbage collection and convenience
 
-int main(const int argc, const char *argv[]) {
 
-  // Initialize the system
-  SYSTEM_PTR system = std::make_unique<SYSTEM>();
-  system->initialize(argc, argv);
+class WINDOW {
 
-  // Execute the application
-  system->execute();
+public:
+  // Public WINDOW methods
+  void initialize();
+  void update();
+  void finalize();
 
-  // Free memory
-  system->finalize();
+  SDL_Window*   get_window();
+  SDL_Renderer* get_render();
 
-  return 0;
-}
+private:
+  // Private WINDOW attributes
+  bool          initialized;
+  SDLWINDOW_PTR windowptr;
+  SDLRENDER_PTR renderptr;
+
+};
+
+
+#endif // _WINDOW_HPP

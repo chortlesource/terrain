@@ -28,17 +28,14 @@
 /////////////////////////////////////////////////////////////
 // SDLINTERFACE Class
 //
-// The SDLINTERFACE interprets SDL Events and does something
-// about them
+// The SDLINTERFACE interprets SDL Events
 
 
 class SDLINTERFACE {
-  using U64          = std::uint64_t;
 
 private:
   // Private SDLINTERFACE attributes
   SDL_Event event;
-  U64       id;
 
 public:
   // Public SDLINTERFACE methods
@@ -48,7 +45,7 @@ public:
         case SDL_WINDOWEVENT:
           switch(event.window.event) {
             case SDL_WINDOWEVENT_CLOSE:
-              state.eventmanager->send(EVENT(EVENTTYPE::SYSTEM_EVENT, SYSTEM_EVENT(SYSTEM_EVENT::TYPE::HALT)));
+              state.status = STATUS::EXIT;
               break;
             default:
               break;

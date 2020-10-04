@@ -30,11 +30,11 @@
 
 void CHUNK::initialize(SDL_Renderer *render) {
   // Load the tiles
-  TEXTURE_PTR temp(IMG_LoadTexture(render, _TILE_PATH.c_str()), [=](SDL_Texture *t){ SDL_DestroyTexture(t); });
+  SDLTEXTURE_PTR temp(IMG_LoadTexture(render, _TILE_PATH.c_str()), [=](SDL_Texture *t){ SDL_DestroyTexture(t); });
   tiles = temp;
 
   // Create our new texture
-  TEXTURE_PTR ch(SDL_CreateTexture(render, SDL_PIXELFORMAT_RGBA8888,
+  SDLTEXTURE_PTR ch(SDL_CreateTexture(render, SDL_PIXELFORMAT_RGBA8888,
   SDL_TEXTUREACCESS_TARGET, _CHUNK_WIDTH * _TILE_WIDTH, _CHUNK_HEIGHT * _TILE_HEIGHT)
   , [=](SDL_Texture *t){SDL_DestroyTexture(t);});
   chunk = ch;
@@ -117,37 +117,44 @@ void CHUNK::draw(SDL_Rect *rect, SDL_Renderer *render) {
 
 void CHUNK::finalize() {
   initialized = false;
-  tiles = nullptr;
-  chunk = nullptr;
+  tiles       = nullptr;
+  chunk       = nullptr;
 }
 
 
-BIOME CHUNK::get_biome(double const& b, double const& m) {
-  if (b < 0.2) return BIOME::WATER;
-  if (b < 0.325) return BIOME::BEACH;
+/////////////////////////////////////////////////////////////
+// Private CHUNK class methods
+//
 
-  if(b > 0.8) {
-    if(m < 0.1) return BIOME::ROCKY;
-    if(m < 0.4) return BIOME::MOUNTAIN;
-    if(m < 0.65) return BIOME::TUNDRA;
+
+BIOME CHUNK::get_biome(double const& b, double const& m) {
+  if (b < 0.2)    return BIOME::WATER;
+  if (b < 0.27)  return BIOME::BEACH;
+
+  if(b > 0.6) {
+    if(m < 0.3)   return BIOME::ROCKY;
+    if(m < 0.5)   return BIOME::MOUNTAIN;
+    if(m < 0.85)  return BIOME::TUNDRA;
     return BIOME::MOUNTAIN;
   }
 
-  if (b > 0.6) {
+  if (b > 0.5) {
     if (m < 0.30) return BIOME::GRASSLAND;
     if (m < 0.50) return BIOME::SHRUBLAND;
+    if (m < 0.80)  return BIOME::WATER;
     return BIOME::MOORLAND;
   }
 
   if (b >= 0.3) {
     if (m < 0.30) return BIOME::DIRT;
-    if (m < 0.50) return BIOME::GRASSLAND;
-    if (m < 0.66) return BIOME::SHRUBLAND;
+    if (m < 0.40) return BIOME::GRASSLAND;
+    if (m < 0.50) return BIOME::SHRUBLAND;
+    if (m > 0.9)  return BIOME::WATER;
     return BIOME::MOORLAND;
   }
 
-  if (m < 0.30) return BIOME::DIRT;
-  if (m < 0.33) return BIOME::GRASSLAND;
-  if (m < 0.66) return BIOME::SHRUBLAND;
+  if (m < 0.30)   return BIOME::DIRT;
+  if (m < 0.33)   return BIOME::GRASSLAND;
+  if (m < 0.66)   return BIOME::SHRUBLAND;
   return BIOME::MOORLAND;
 }

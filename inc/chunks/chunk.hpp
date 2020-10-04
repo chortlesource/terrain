@@ -24,15 +24,6 @@
 #ifndef _CHUNK_HPP
 #define _CHUNK_HPP
 
-/////////////////////////////////////////////////////////////
-// DEPENDENCIES
-//
-
-// Standard Libraries
-#include <memory>
-#include <array>
-#include <string>
-
 
 /////////////////////////////////////////////////////////////
 // CHUNK Contants
@@ -71,6 +62,7 @@ enum class BIOME {
 
 
 class BASECHUNK {
+
 public:
   BASECHUNK(unsigned int const& seed, int const& gx, int const& gy) {
     global_x = _CHUNK_WIDTH * gx;
@@ -117,8 +109,6 @@ protected:
 
 
 class CHUNK : public BASECHUNK {
-  using TEXTURE_PTR = std::shared_ptr<SDL_Texture>;
-  using RENDER_PTR = std::shared_ptr<SDL_Renderer>;
 
 public:
   CHUNK(unsigned int const& seed, int const& gx, int const& gy)
@@ -132,8 +122,8 @@ public:
 
 private:
   bool initialized;
-  TEXTURE_PTR tiles;
-  TEXTURE_PTR chunk;
+  SDLTEXTURE_PTR tiles;
+  SDLTEXTURE_PTR chunk;
 
   BIOME get_biome(double const& b, double const& m);
 };

@@ -26,13 +26,6 @@
 
 
 /////////////////////////////////////////////////////////////
-// DEPENDENCIES
-//
-
-// Standard Libraries
-
-
-/////////////////////////////////////////////////////////////
 // CHUNKVIEWER Class
 //
 // The CHUNKVIEWER class contains all chunks and renders them to
@@ -40,7 +33,6 @@
 
 
 class CHUNKVIEWER {
-  using CHUNK_PTR    = std::shared_ptr<CHUNK>;
 
 public:
   CHUNKVIEWER() {};

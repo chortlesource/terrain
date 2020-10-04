@@ -32,15 +32,6 @@
 // use within an application. All macro's operate within a debug
 // build. But only errors are reported in other builds.
 
-/////////////////////////////////////////////////////////////
-// DEPENDENCIES
-//
-
-// Standard Libraries
-#include <iostream>
-#include <mutex>
-#include <iomanip>
-
 
 /////////////////////////////////////////////////////////////////
 // ANSI escape constants

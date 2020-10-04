@@ -26,13 +26,29 @@
 
 
 /////////////////////////////////////////////////////////////
-// DEPENDENCIES / STANDARD LIBS
+// DEPENDENCIES
 //
 
+// SDL Dependencies
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
+
+// Standard Libraries
+#include <cstdint>
+#include <iostream>
+#include <iomanip>
+#include <algorithm>
+#include <memory>
+#include <chrono>
+#include <numeric>
+#include <random>
+#include <type_traits>
+
+#include <vector>
 #include <string>
+#include <array>
+#include <mutex>
 
 
 /////////////////////////////////////////////////////////////
@@ -48,20 +64,6 @@ static const int _APP_HEIGHT = 600;
 
 
 /////////////////////////////////////////////////////////////
-// FORWARDS
-//
-
-class SYSTEM;
-class WINDOW;
-class CHUNK;
-class CHUNKVIEWER;
-class EVENTMANAGER;
-class TIMER;
-class PROFILER;
-class SDLINTERFACE;
-
-
-/////////////////////////////////////////////////////////////
 // LOCAL INCLUDES
 //
 
@@ -71,18 +73,15 @@ class SDLINTERFACE;
 #include "util/perlin.hpp"
 #include "util/timer.hpp"
 #include "util/profiler.hpp"
+#include "util/types.hpp"
+#include "util/state.hpp"
 
 #include "chunks/chunk.hpp"
-
-#include "events/events.hpp"
-#include "events/listener.hpp"
-#include "events/eventqueue.hpp"
-#include "events/eventmanager.hpp"
-
-#include "system.hpp"
 #include "chunks/chunkviewer.hpp"
-#include "window.hpp"
-#include "events/sdlinterface.hpp"
+
+#include "sys/sdlinterface.hpp"
+#include "sys/system.hpp"
+#include "sys/window.hpp"
 
 
 #endif // _TERRAIN_HPP
