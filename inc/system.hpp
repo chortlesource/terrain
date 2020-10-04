@@ -54,6 +54,7 @@ using TIMER_PTR         = std::shared_ptr<TIMER>;
 using PROFILER_PTR      = std::shared_ptr<PROFILER>;
 using SDLINTER_PTR      = std::shared_ptr<SDLINTERFACE>;
 using CHUNK_PTR         = std::shared_ptr<CHUNK>;
+using CHUNKVIEW_PTR     = std::shared_ptr<CHUNKVIEWER>;
 using U64               = std::uint64_t;
 
 
@@ -67,16 +68,19 @@ struct STATE {
   STATUS              status;
   EVENTMANAGER_PTR    eventmanager;
   WINDOW_PTR          window;
+  CHUNKVIEW_PTR       chunkviewer;
   TIMER_PTR           timer;
   PROFILER_PTR        profiler;
   SDLINTER_PTR        sdlinterface;
-  CHUNK_PTR           test_chunk;
 
   unsigned int        seed;
   bool                run;
+  int                 pos_x;
+  int                 pos_y;
+  int                 zoom;
 
   STATE() : status(STATUS::INIT), eventmanager(nullptr), window(nullptr), timer(nullptr), profiler(nullptr),
-    sdlinterface(nullptr), seed(std::default_random_engine::default_seed), run(false) {};
+    sdlinterface(nullptr), seed(std::default_random_engine::default_seed), run(false), pos_x(0), pos_y(0), zoom(1) {};
 };
 
 

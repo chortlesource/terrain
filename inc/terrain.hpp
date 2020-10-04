@@ -53,11 +53,13 @@ static const int _APP_HEIGHT = 600;
 
 class SYSTEM;
 class WINDOW;
+class CHUNK;
+class CHUNKVIEWER;
 class EVENTMANAGER;
 class TIMER;
 class PROFILER;
 class SDLINTERFACE;
-class CHUNK;
+
 
 /////////////////////////////////////////////////////////////
 // LOCAL INCLUDES
@@ -78,6 +80,7 @@ class CHUNK;
 #include "events/eventmanager.hpp"
 
 #include "system.hpp"
+#include "chunks/chunkviewer.hpp"
 #include "window.hpp"
 #include "events/sdlinterface.hpp"
 

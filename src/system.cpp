@@ -52,14 +52,14 @@ void SYSTEM::initialize(int const& argc, const char *argv[]) {
 
   // Initialize the SYSTEM components
   state.eventmanager  = std::make_shared<EVENTMANAGER>();
+  state.chunkviewer   = std::make_shared<CHUNKVIEWER>();
   state.timer         = std::make_shared<TIMER>();
   state.profiler      = std::make_shared<PROFILER>();
   state.window        = std::make_shared<WINDOW>();
   state.sdlinterface  = std::make_shared<SDLINTERFACE>();
-  state.test_chunk    = std::make_shared<CHUNK>(state.seed, 0, 0);
 
   state.window->initialize();
-  state.test_chunk->initialize(state.window->get_render());
+  state.chunkviewer->initialize(state);
 
   state.status  = STATUS::RUN;
   id            = state.eventmanager->new_listener_id();
@@ -89,8 +89,8 @@ void SYSTEM::execute() {
     // Fix the timestep
     while(elapsed >= rate) {
       state.window->update();   // Refresh the display
-      state.test_chunk->draw(state.window->get_render());
       state.sdlinterface->poll(state); // poll events
+      state.chunkviewer->update(state);
       state.profiler->fps();    // Profile the FPS
       elapsed -= rate;
     }
@@ -111,10 +111,10 @@ void SYSTEM::finalize() {
   remove_listeners();
 
   // Free the shared pointers
-  state.test_chunk->finalize();
+  state.chunkviewer->finalize();
   state.window->finalize();
 
-  state.test_chunk   = nullptr;
+  state.chunkviewer  = nullptr;
   state.window       = nullptr;
   state.profiler     = nullptr;
   state.timer        = nullptr;

@@ -38,12 +38,12 @@
 // CHUNK Contants
 //
 
-static const std::string _TILE_PATH   = "./asset/tiles8x8.png";
-static const int _TILE_HEIGHT  = 8;
-static const int _TILE_WIDTH   = 8;
+static const std::string _TILE_PATH   = "./asset/tiles16x16.png";
+static const int _TILE_HEIGHT  = 16;
+static const int _TILE_WIDTH   = 16;
 static const int _CHUNK_RES    = 5;
-static const int _CHUNK_HEIGHT = 64;
-static const int _CHUNK_WIDTH  = 64;
+static const int _CHUNK_HEIGHT = 128;
+static const int _CHUNK_WIDTH  = 128;
 
 static const SDL_Rect tile_map[9] = {
   { 0 * _TILE_WIDTH, 0, _TILE_WIDTH, _TILE_HEIGHT },
@@ -81,13 +81,17 @@ public:
     // Populate the noise maps
     for(int y = 0; y <_CHUNK_HEIGHT; y++) {
       for(int x = 0; x <_CHUNK_WIDTH; x++) {
+        double dx = ((_CHUNK_WIDTH / 2) - x) * ((_CHUNK_WIDTH / 2) - x);
+        double dy = ((_CHUNK_WIDTH / 2) - y) * ((_CHUNK_WIDTH / 2) - y);
+        double d = sqrt(dx + dy) / _CHUNK_WIDTH;
+
         double nx = 1.0 /_CHUNK_WIDTH;
         double ny = 1.0 /_CHUNK_HEIGHT;
 
-        double elev = perlin.octave_noise_0_1((x + global_x) * nx * _CHUNK_RES, (y + global_y) * ny * _CHUNK_RES, 0.1, 10);
+        double elev = perlin.octave_noise_0_1((x + global_x) * nx * _CHUNK_RES, (y + global_y) * ny * _CHUNK_RES, 0.1, 20);
         double temp = perlin.octave_noise_0_1((x + global_x) * nx * _CHUNK_RES, (y + global_y) * ny * _CHUNK_RES, 1, 3);
 
-        biome[y][x] = elev;
+        biome[y][x] = elev - d;
         temps[y][x] = temp;
       }
     }
@@ -123,7 +127,7 @@ public:
 
   // Public CHUNK methods
   void initialize(SDL_Renderer *render);
-  void draw(SDL_Renderer *render);
+  void draw(SDL_Rect *rect, SDL_Renderer *render);
   void finalize();
 
 private:

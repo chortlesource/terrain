@@ -107,12 +107,11 @@ void CHUNK::initialize(SDL_Renderer *render) {
 }
 
 
-void CHUNK::draw(SDL_Renderer *render) {
+void CHUNK::draw(SDL_Rect *rect, SDL_Renderer *render) {
   if(!initialized)
     return;
 
-  SDL_Rect src { global_x, global_y, _APP_WIDTH, _APP_HEIGHT };
-  SDL_RenderCopy(render, chunk.get(), &src, NULL);
+  SDL_RenderCopy(render, chunk.get(), NULL, rect);
 }
 
 
@@ -124,7 +123,7 @@ void CHUNK::finalize() {
 
 
 BIOME CHUNK::get_biome(double const& b, double const& m) {
-  if (b < 0.25) return BIOME::WATER;
+  if (b < 0.2) return BIOME::WATER;
   if (b < 0.325) return BIOME::BEACH;
 
   if(b > 0.8) {

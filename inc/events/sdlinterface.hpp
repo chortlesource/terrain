@@ -53,6 +53,30 @@ public:
             default:
               break;
           };
+        case SDL_KEYDOWN:
+          switch(event.key.keysym.sym) {
+            case SDLK_RIGHT:
+              state.pos_x -= 10;
+              break;
+            case SDLK_DOWN:
+              state.pos_y -= 10;
+              break;
+            case SDLK_LEFT:
+              state.pos_x += 10;
+              break;
+            case SDLK_UP:
+              state.pos_y += 10;
+              break;
+            case SDLK_PERIOD:
+              state.zoom += 10;
+              break;
+            case SDLK_COMMA:
+              state.zoom -= 10;
+              break;
+            default:
+              break;
+          };
+          break;
         default:
           break;
       };
