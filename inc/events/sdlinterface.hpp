@@ -33,9 +33,12 @@
 
 
 class SDLINTERFACE {
+  using U64          = std::uint64_t;
+
 private:
   // Private SDLINTERFACE attributes
   SDL_Event event;
+  U64       id;
 
 public:
   // Public SDLINTERFACE methods
@@ -45,7 +48,7 @@ public:
         case SDL_WINDOWEVENT:
           switch(event.window.event) {
             case SDL_WINDOWEVENT_CLOSE:
-              state.status = STATUS::EXIT;
+              state.eventmanager->send(EVENT(EVENTTYPE::SYSTEM_EVENT, SYSTEM_EVENT(SYSTEM_EVENT::TYPE::HALT)));
               break;
             default:
               break;

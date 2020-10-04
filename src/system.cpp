@@ -61,8 +61,11 @@ void SYSTEM::initialize(int const& argc, const char *argv[]) {
   state.window->initialize();
   state.test_chunk->initialize(state.window->get_render());
 
-  state.status      = STATUS::RUN;
-  initialized       = true;
+  state.status  = STATUS::RUN;
+  id            = state.eventmanager->new_listener_id();
+  register_listeners();
+
+  initialized   = true;
 }
 
 
@@ -105,6 +108,7 @@ void SYSTEM::finalize() {
     return;
 
   initialized = false;
+  remove_listeners();
 
   // Free the shared pointers
   state.test_chunk->finalize();
@@ -115,6 +119,23 @@ void SYSTEM::finalize() {
   state.profiler     = nullptr;
   state.timer        = nullptr;
   state.eventmanager = nullptr;
+}
+
+
+void SYSTEM::on_notify(EVENT const& event) {
+  switch(event.type) {
+    case EVENTTYPE::SYSTEM_EVENT:
+      switch(event.system_event.type){
+        case SYSTEM_EVENT::TYPE::HALT:
+          state.status = STATUS::EXIT;
+        default:
+          break;
+      };
+      break;
+    default:
+      break;
+  }
+
 }
 
 
@@ -136,4 +157,19 @@ void SYSTEM::parse(CLIPARSE& p) {
   }
 
   state.run = true;
+}
+
+
+void SYSTEM::register_listeners() {
+  // Register the event listeners
+  std::function<void(EVENT const&)> callback =
+    [=](EVENT const& event) -> void { this->on_notify(event); };
+
+  state.eventmanager->add_listener(LISTENER(id, EVENTTYPE::SYSTEM_EVENT, callback));
+}
+
+
+void SYSTEM::remove_listeners() {
+  // Remove the event listener
+  state.eventmanager->rem_listener(LISTENER(id, EVENTTYPE::SYSTEM_EVENT, nullptr));
 }

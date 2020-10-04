@@ -32,7 +32,7 @@
 // containt
 
 enum class EVENTTYPE {
-  SYSTEM
+  SYSTEM_EVENT, WINDOW_EVENT
 };
 
 
@@ -49,6 +49,18 @@ struct SYSTEM_EVENT {
 
 
 /////////////////////////////////////////////////////////////
+// WINDOW_EVENT Struct
+
+struct WINDOW_EVENT {
+  enum class TYPE { NONE, CLOSE, ERROR };
+  const TYPE type;
+
+  WINDOW_EVENT() : type(TYPE::NONE) {};
+  WINDOW_EVENT(TYPE const& t) : type(t) {};
+};
+
+
+/////////////////////////////////////////////////////////////
 // EVENT Struct
 //
 // The main EVENT struct which contains essential information
@@ -56,9 +68,11 @@ struct SYSTEM_EVENT {
 struct EVENT {
   const EVENTTYPE type;
   const SYSTEM_EVENT system_event;
+  const WINDOW_EVENT window_event;
 
-  EVENT(EVENTTYPE const& t) : type(t), system_event() {};
-  EVENT(EVENTTYPE const& t, SYSTEM_EVENT const& e) : type(t), system_event(e) {};
+  EVENT(EVENTTYPE const& t) : type(t), system_event(), window_event() {};
+  EVENT(EVENTTYPE const& t, SYSTEM_EVENT const& e) : type(t), system_event(e), window_event() {};
+  EVENT(EVENTTYPE const& t, WINDOW_EVENT const& e) : type(t), system_event(), window_event(e) {};
 };
 
 

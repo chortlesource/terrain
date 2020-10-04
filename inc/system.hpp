@@ -44,9 +44,9 @@ enum class STATUS {
 
 
 /////////////////////////////////////////////////////////////
-// STATE Struct
+// Type definitions
 //
-// Used to store SYSTEM components for convenient distribution
+// Used in an effort to make code more readable
 
 using EVENTMANAGER_PTR  = std::shared_ptr<EVENTMANAGER>;
 using WINDOW_PTR        = std::shared_ptr<WINDOW>;
@@ -54,6 +54,13 @@ using TIMER_PTR         = std::shared_ptr<TIMER>;
 using PROFILER_PTR      = std::shared_ptr<PROFILER>;
 using SDLINTER_PTR      = std::shared_ptr<SDLINTERFACE>;
 using CHUNK_PTR         = std::shared_ptr<CHUNK>;
+using U64               = std::uint64_t;
+
+
+/////////////////////////////////////////////////////////////
+// STATE Struct
+//
+// Used to store SYSTEM components for convenient distribution
 
 
 struct STATE {
@@ -80,6 +87,7 @@ struct STATE {
 // initialize and finalize the application components
 
 class SYSTEM {
+
 public:
   // Public SYSTEM class methods
   SYSTEM() {};
@@ -88,14 +96,18 @@ public:
   void initialize(int const& argc, const char *argv[]);
   void execute();
   void finalize();
+  void on_notify(EVENT const& event);
 
 private:
   // Private SYSTEM class attributes
   bool  initialized;
+  U64   id;
   STATE state;
 
   // Private SYSTEM class methods
   void parse(CLIPARSE& p);
+  void register_listeners();
+  void remove_listeners();
 
 };
 

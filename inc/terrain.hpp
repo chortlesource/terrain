@@ -72,13 +72,13 @@ class CHUNK;
 
 #include "chunks/chunk.hpp"
 
-#include "system.hpp"
-#include "window.hpp"
-
 #include "events/events.hpp"
 #include "events/listener.hpp"
 #include "events/eventqueue.hpp"
 #include "events/eventmanager.hpp"
+
+#include "system.hpp"
+#include "window.hpp"
 #include "events/sdlinterface.hpp"
 
 

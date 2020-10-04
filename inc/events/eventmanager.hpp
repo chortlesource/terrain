@@ -126,7 +126,7 @@ public:
   /////////////////////////////////////////////////////////////
   // send_event(event) - Send an event with normal priority
 
-  void send_event(EVENT const& event) {
+  void send(EVENT const& event) {
     events.push(event);
   }
 
