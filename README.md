@@ -16,6 +16,7 @@ Terrain is a simple procedural world generator using perlin noise in c++. I have
 
 First clone the directory, create a build folder and then call cmake. You can also include the `-DCMAKE_BUILD_TYPE=Debug` flags if you wish to view all of the debug messages that terrain generates and observe performance.
 
+- `git clone git@github.com:chortlesource/terrain.git`
 - `cd terrain`
 - `mkdir build && cd build`
 - `cmake ..` or `cmake .. -DCMAKE_BUILD_TYPE=Debug`
