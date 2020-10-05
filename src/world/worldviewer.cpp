@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// terrain - chunkviewer.hpp
+// terrain - worldviewer.cpp
 //
 // Copyright (c) 2020 Christopher M. Short
 //
@@ -21,32 +21,37 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
-#ifndef _CHUNKVIEWER_HPP
-#define _CHUNKVIEWER_HPP
+#include "terrain.hpp"
 
 
 /////////////////////////////////////////////////////////////
-// CHUNKVIEWER Class
+// Public WORLDVIEWER methods
 //
-// The CHUNKVIEWER class contains all chunks and renders them to
-// the main chunk texture as required
 
 
-class CHUNKVIEWER {
+void WORLDVIEWER::initialize(STATE const& state) {
+  // Initialize the world
+  world = std::make_shared<WORLD>(state);
+  world->initialize(state);
 
-public:
-  CHUNKVIEWER() {};
-  ~CHUNKVIEWER() {};
-
-  void initialize(STATE const& state);
-  void update(STATE const& state);
-  void finalize();
-
-private:
-  bool        initialized;
-  CHUNK_PTR   chunk;
-
-};
+  initialized = true;
+}
 
 
-#endif // _CHUNKVIEWER_HPP
+void WORLDVIEWER::update(STATE const& state) {
+  if(!initialized)
+    return;
+
+  int width  = world->width() * world->tile_w() + state.zoom;
+  int height = world->height() * world->tile_h() + state.zoom;
+
+  SDL_Rect dest { state.pos_x, state.pos_y, width, height };
+  world->draw(state.window->get_render(), &dest);
+}
+
+
+void WORLDVIEWER::finalize() {
+  initialized = false;
+  world->finalize();
+  world = nullptr;
+}

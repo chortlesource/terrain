@@ -55,7 +55,7 @@ void SYSTEM::initialize(int const& argc, const char *argv[]) {
   state.io            = std::make_shared<IO>();
   state.timer         = std::make_shared<TIMER>();
   state.profiler      = std::make_shared<PROFILER>();
-  state.chunkviewer   = std::make_shared<CHUNKVIEWER>();
+  state.worldviewer   = std::make_shared<WORLDVIEWER>();
   state.sdlinterface  = std::make_shared<SDLINTERFACE>();
 
   // First load the application configuration
@@ -64,7 +64,7 @@ void SYSTEM::initialize(int const& argc, const char *argv[]) {
 
   // Initialize the state components
   state.window->initialize(state);
-  state.chunkviewer->initialize(state);
+  state.worldviewer->initialize(state);
   state.status  = STATUS::RUN;
 
   initialized   = true;
@@ -92,7 +92,7 @@ void SYSTEM::execute() {
     while(elapsed >= rate) {
       state.window->update();          // Refresh the display
       state.sdlinterface->poll(state); // poll events
-      state.chunkviewer->update(state);
+      state.worldviewer->update(state);
       state.profiler->fps();           // Profile the FPS
       elapsed -= rate;
     }
@@ -111,11 +111,11 @@ void SYSTEM::finalize() {
   initialized = false;
 
   // Free the shared pointers
-  state.chunkviewer->finalize();
+  state.worldviewer->finalize();
   state.window->finalize();
 
   state.sdlinterface = nullptr;
-  state.chunkviewer  = nullptr;
+  state.worldviewer  = nullptr;
   state.profiler     = nullptr;
   state.timer        = nullptr;
   state.io           = nullptr;
@@ -151,7 +151,7 @@ void SYSTEM::use_default_config() {
   state.config["TILES"]["TILE_WIDTH"]   = 16;
   state.config["TILES"]["TILE_HEIGHT"]  = 16;
   state.config["TILES"]["TILE_PATH"]    = "./asset/gfx/tiles.png";
-  state.config["CHUNK"]["CHUNK_WIDTH"]  = 128;
-  state.config["CHUNK"]["CHUNK_HEIGHT"] = 128;
-  state.config["CHUNK"]["CHUNK_RES"] = 5;
+  state.config["WORLD"]["WORLD_WIDTH"]  = 128;
+  state.config["WORLD"]["WORLD_HEIGHT"] = 128;
+  state.config["WORLD"]["WORLD_RES"]    = 5;
 }

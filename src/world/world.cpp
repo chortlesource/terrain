@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// terrain - chunk.cpp
+// terrain - world.cpp
 //
 // Copyright (c) 2020 Christopher M. Short
 //
@@ -25,17 +25,12 @@
 
 
 /////////////////////////////////////////////////////////////
-// Public CHUNK class methods
+// Public WORLD methods
 //
 
-void CHUNK::initialize(STATE const& state) {
-  // Load the tiles
+void WORLD::initialize(STATE const& state) {
+  // Temporary Helper variables
   SDL_Renderer *render = state.window->get_render();
-  int chunkw  = state.config["CHUNK"]["CHUNK_WIDTH"].asInt();
-  int chunkh = state.config["CHUNK"]["CHUNK_HEIGHT"].asInt();
-  int tilew = state.config["TILES"]["TILE_HEIGHT"].asInt();
-  int tileh = state.config["TILES"]["TILE_HEIGHT"].asInt();
-  std::string tilep = state.config["TILES"]["TILE_PATH"].asString();
 
   const SDL_Rect tile_map[9] = {
     { 0 * tilew, 0, tilew, tileh },
@@ -49,20 +44,21 @@ void CHUNK::initialize(STATE const& state) {
     { 8 * tilew, 0, tilew, tileh }
   };
 
-  SDLTEXTURE_PTR temp(IMG_LoadTexture(render, tilep.c_str()), [=](SDL_Texture *t){ SDL_DestroyTexture(t); });
-  tiles = temp;
+  // Load the tilesheet
+  SDLTEXTURE_PTR ttemp(IMG_LoadTexture(render, tile_path.c_str()), [=](SDL_Texture *t){ SDL_DestroyTexture(t); });
+  tiles = ttemp;
 
-  // Create our new texture
-  SDLTEXTURE_PTR ch(SDL_CreateTexture(render, SDL_PIXELFORMAT_RGBA8888,
-  SDL_TEXTUREACCESS_TARGET, chunkw * tilew, chunkh * tileh)
+  // Create the world map texture
+  SDLTEXTURE_PTR wrld(SDL_CreateTexture(render, SDL_PIXELFORMAT_RGBA8888,
+  SDL_TEXTUREACCESS_TARGET, worldw * tilew, worldh * tileh)
   , [=](SDL_Texture *t){SDL_DestroyTexture(t);});
-  chunk = ch;
+  world = wrld;
 
   // Configure to draw to our chunk
-  SDL_SetRenderTarget(render, chunk.get());
+  SDL_SetRenderTarget(render, world.get());
 
-  for(int y = 0; y < chunkh; y++) {
-     for(int x = 0; x < chunkw; x++) {
+  for(int y = 0; y < worldh; y++) {
+     for(int x = 0; x < worldw; x++) {
        // Get the biome in use
        BIOME b = get_biome(biome[y][x], temps[y][x]);
        SDL_Rect dst {x * tilew, y * tileh, tilew, tileh };
@@ -126,27 +122,37 @@ void CHUNK::initialize(STATE const& state) {
 }
 
 
-void CHUNK::draw(SDL_Rect *rect, SDL_Renderer *render) {
+void WORLD::draw(SDL_Renderer *render, SDL_Rect *rect) {
   if(!initialized)
     return;
 
-  SDL_RenderCopy(render, chunk.get(), NULL, rect);
+  SDL_RenderCopy(render, world.get(), NULL, rect);
 }
 
 
-void CHUNK::finalize() {
+void WORLD::finalize() {
   initialized = false;
   tiles       = nullptr;
-  chunk       = nullptr;
+  world       = nullptr;
+
+  tile_path   = "";
+  tilew       = 0;
+  tileh       = 0;
+  worldw      = 0;
+  worldh      = 0;
+  world_res   = 0;
+
+  biome.clear();
+  temps.clear();
 }
 
 
 /////////////////////////////////////////////////////////////
-// Private CHUNK class methods
+// Private WORLD methods
 //
 
 
-BIOME CHUNK::get_biome(double const& b, double const& m) {
+BIOME WORLD::get_biome(double const& b, double const& m) {
   if (b < 0.2)    return BIOME::WATER;
   if (b < 0.27)  return BIOME::BEACH;
 

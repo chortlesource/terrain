@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// terrain - chunkviewer.cpp
+// terrain - worldviewer.hpp
 //
 // Copyright (c) 2020 Christopher M. Short
 //
@@ -21,38 +21,30 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
-#include "terrain.hpp"
+#ifndef _WORLDVIEWER_HPP
+#define _WORLDVIEWER_HPP
 
 
 /////////////////////////////////////////////////////////////
-// Public CHUNKVIEWER class methods
+// WORLDVIEWER Class
 //
-
-void CHUNKVIEWER::initialize(STATE const& state) {
-  chunk = std::make_shared<CHUNK>(state, 0, 0);
-  chunk->initialize(state);
-
-  initialized = true;
-}
+// The WORLDVIEWER renders the world to the screen in the
+// appropriate position
 
 
-void CHUNKVIEWER::update(STATE const& state) {
-  if(!initialized)
-    return;
+class WORLDVIEWER {
 
-  int chunkw  = state.config["CHUNK"]["CHUNK_WIDTH"].asInt();
-  int chunkh = state.config["CHUNK"]["CHUNK_HEIGHT"].asInt();
-  int tilew = state.config["TILES"]["TILE_HEIGHT"].asInt();
-  int tileh = state.config["TILES"]["TILE_HEIGHT"].asInt();
+public:
+  // Public WORLDVIEWER methods
+  void initialize(STATE const& state);
+  void update(STATE const& state);
+  void finalize();
 
-  SDL_Rect dest { state.pos_x, state.pos_y, chunkw * tilew + state.zoom, chunkh * tileh + state.zoom };
-  chunk->draw(&dest, state.window->get_render());
-}
+private:
+  bool      initialized;
+  WORLD_PTR world;
+
+};
 
 
-void CHUNKVIEWER::finalize() {
-  initialized = false;
-
-  chunk->finalize();
-  chunk = nullptr;
-}
+#endif // _WORLDVIEWER_HPP

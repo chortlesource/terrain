@@ -54,7 +54,7 @@ void WINDOW::initialize(STATE const& state) {
     return;
   }
 
-  SDLTEXTURE_PTR temptex(IMG_LoadTexture(renderptr.get(), "./asset/scanline.png"), [=](SDL_Texture *t){ SDL_DestroyTexture(t); });
+  SDLTEXTURE_PTR temptex(IMG_LoadTexture(renderptr.get(), "./asset/gfx/scanline.png"), [=](SDL_Texture *t){ SDL_DestroyTexture(t); });
   scanline = temptex;
 
   SDL_SetTextureBlendMode(scanline.get(), SDL_BLENDMODE_BLEND);

@@ -78,8 +78,8 @@ static const std::string _APP_SOURCE  = "http://www.github.com/chortlesoft/terra
 #include "util/types.hpp"
 #include "util/state.hpp"
 
-#include "chunks/chunk.hpp"
-#include "chunks/chunkviewer.hpp"
+#include "world/world.hpp"
+#include "world/worldviewer.hpp"
 
 #include "sys/io.hpp"
 #include "sys/sdlinterface.hpp"

@@ -17,8 +17,8 @@ endif()
 include_directories(${CMAKE_SOURCE_DIR}/inc)
 add_subdirectory(${CMAKE_SOURCE_DIR}/src)
 add_subdirectory(${CMAKE_SOURCE_DIR}/src/lib)
-add_subdirectory(${CMAKE_SOURCE_DIR}/src/chunk)
 add_subdirectory(${CMAKE_SOURCE_DIR}/src/sys)
+add_subdirectory(${CMAKE_SOURCE_DIR}/src/world)
 
 
 

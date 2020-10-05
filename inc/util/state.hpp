@@ -37,7 +37,7 @@ struct STATE {
   IO_PTR              io;
   TIMER_PTR           timer;
   PROFILER_PTR        profiler;
-  CHUNKVIEW_PTR       chunkviewer;
+  WORLDVIEWER_PTR     worldviewer;
   SDLINTER_PTR        sdlinterface;
 
   Json::Value         config;
@@ -48,7 +48,7 @@ struct STATE {
   int                 zoom;
 
   STATE() : status(STATUS::INIT), window(nullptr), io(nullptr), timer(nullptr),
-  profiler(nullptr), chunkviewer(nullptr), sdlinterface(nullptr), config(Json::Value::null),
+  profiler(nullptr), worldviewer(nullptr), sdlinterface(nullptr), config(Json::Value::null),
   seed(std::default_random_engine::default_seed), run(false), pos_x(0), pos_y(0), zoom(1) {};
 };
 

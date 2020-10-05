@@ -34,8 +34,8 @@ class WINDOW;
 class IO;
 class TIMER;
 class PROFILER;
-class CHUNK;
-class CHUNKVIEWER;
+class WORLD;
+class WORLDVIEWER;
 class SDLINTERFACE;
 
 
@@ -51,12 +51,13 @@ using IO_PTR            = std::shared_ptr<IO>;
 using JSON_PTR          = std::shared_ptr<Json::Value>;
 using TIMER_PTR         = std::shared_ptr<TIMER>;
 using PROFILER_PTR      = std::shared_ptr<PROFILER>;
-using CHUNK_PTR         = std::shared_ptr<CHUNK>;
-using CHUNKVIEW_PTR     = std::shared_ptr<CHUNKVIEWER>;
+using WORLD_PTR         = std::shared_ptr<WORLD>;
+using WORLDVIEWER_PTR   = std::shared_ptr<WORLDVIEWER>;
 using SDLINTER_PTR      = std::shared_ptr<SDLINTERFACE>;
 using SDLWINDOW_PTR     = std::shared_ptr<SDL_Window>;
 using SDLTEXTURE_PTR    = std::shared_ptr<SDL_Texture>;
 using SDLRENDER_PTR     = std::shared_ptr<SDL_Renderer>;
+using NOISEMAP          = std::vector<std::vector<double>>;
 
 
 /////////////////////////////////////////////////////////////
