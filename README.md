@@ -1,6 +1,6 @@
 # TERRAIN
 <p align="center">
-  <img src="asset/screenshot.png" />
+  <img src="asset/gfx/screenshot.png" />
 </p>
 
 ## Description

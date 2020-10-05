@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// terrain - system.hpp
+// terrain - io.hpp
 //
 // Copyright (c) 2020 Christopher M. Short
 //
@@ -21,37 +21,42 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
-#ifndef _SYSTEM_HPP
-#define _SYSTEM_HPP
+#ifndef _IO_HPP
+#define _IO_HPP
 
 
 /////////////////////////////////////////////////////////////
-// SYSTEM Class
+// IO Class
 //
-// The SYSTEM class is the main container class used to
-// initialize and finalize the application components
+// The IO class handles asset loading within the application.
 
-class SYSTEM {
 
+class IO {
 public:
-  // Public SYSTEM class methods
-  SYSTEM() {};
-  ~SYSTEM() {};
+  // Public IO methods
 
-  void initialize(int const& argc, const char *argv[]);
-  void execute();
-  void finalize();
+  bool load_json(std::string const& path, Json::Value& value) {
+    if(fexist(path)) {
+      std::ifstream input(path, std::ifstream::binary);
+      if(input.is_open()){
+        input >> value;
+        input.close();
+        return true;
+      }
+    }
+    return false; // By default fail
+  }
 
 private:
-  // Private SYSTEM class attributes
-  bool  initialized;
-  STATE state;
+  // Private IO methods
 
-  // Private SYSTEM class methods
-  void parse(CLIPARSE& p);
-  void use_default_config();
+  bool fexist(std::string const& path) const noexcept {
+    // Identify if file exists and return true if exists
+    namespace fs = std::experimental::filesystem;
+    return (fs::exists(fs::path(path)) && fs::is_regular_file(fs::path(path)));
+  }
 
 };
 
 
-#endif // _SYSTEM_HPP
+#endif // _IO_HPP

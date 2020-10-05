@@ -31,6 +31,7 @@
 
 class SYSTEM;
 class WINDOW;
+class IO;
 class TIMER;
 class PROFILER;
 class CHUNK;
@@ -46,6 +47,8 @@ class SDLINTERFACE;
 
 using SYSTEM_PTR        = std::unique_ptr<SYSTEM>;
 using WINDOW_PTR        = std::shared_ptr<WINDOW>;
+using IO_PTR            = std::shared_ptr<IO>;
+using JSON_PTR          = std::shared_ptr<Json::Value>;
 using TIMER_PTR         = std::shared_ptr<TIMER>;
 using PROFILER_PTR      = std::shared_ptr<PROFILER>;
 using CHUNK_PTR         = std::shared_ptr<CHUNK>;

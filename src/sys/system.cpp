@@ -51,14 +51,19 @@ void SYSTEM::initialize(int const& argc, const char *argv[]) {
   parse(parser);
 
   // Allocate memory for the state components
+  state.window        = std::make_shared<WINDOW>();
+  state.io            = std::make_shared<IO>();
   state.timer         = std::make_shared<TIMER>();
   state.profiler      = std::make_shared<PROFILER>();
-  state.window        = std::make_shared<WINDOW>();
   state.chunkviewer   = std::make_shared<CHUNKVIEWER>();
   state.sdlinterface  = std::make_shared<SDLINTERFACE>();
 
+  // First load the application configuration
+  if(!state.io->load_json("./asset/init.json", state.config))
+    use_default_config();
+
   // Initialize the state components
-  state.window->initialize();
+  state.window->initialize(state);
   state.chunkviewer->initialize(state);
   state.status  = STATUS::RUN;
 
@@ -111,9 +116,10 @@ void SYSTEM::finalize() {
 
   state.sdlinterface = nullptr;
   state.chunkviewer  = nullptr;
-  state.window       = nullptr;
   state.profiler     = nullptr;
   state.timer        = nullptr;
+  state.io           = nullptr;
+  state.window       = nullptr;
 }
 
 
@@ -135,4 +141,17 @@ void SYSTEM::parse(CLIPARSE& p) {
   }
 
   state.run = true;
+}
+
+
+void SYSTEM::use_default_config() {
+  // Initialize the default configuration
+  state.config["INIT"]["APP_WIDTH"]     = 1080;
+  state.config["INIT"]["APP_HEIGHT"]    = 720;
+  state.config["TILES"]["TILE_WIDTH"]   = 16;
+  state.config["TILES"]["TILE_HEIGHT"]  = 16;
+  state.config["TILES"]["TILE_PATH"]    = "./asset/gfx/tiles.png";
+  state.config["CHUNK"]["CHUNK_WIDTH"]  = 128;
+  state.config["CHUNK"]["CHUNK_HEIGHT"] = 128;
+  state.config["CHUNK"]["CHUNK_RES"] = 5;
 }

@@ -34,19 +34,22 @@
 struct STATE {
   STATUS              status;
   WINDOW_PTR          window;
+  IO_PTR              io;
   TIMER_PTR           timer;
   PROFILER_PTR        profiler;
   CHUNKVIEW_PTR       chunkviewer;
   SDLINTER_PTR        sdlinterface;
 
+  Json::Value         config;
   unsigned int        seed;
   bool                run;
   int                 pos_x;
   int                 pos_y;
   int                 zoom;
 
-  STATE() : status(STATUS::INIT), window(nullptr), timer(nullptr), profiler(nullptr), chunkviewer(nullptr),
-    sdlinterface(nullptr), seed(std::default_random_engine::default_seed), run(false), pos_x(0), pos_y(0), zoom(1) {};
+  STATE() : status(STATUS::INIT), window(nullptr), io(nullptr), timer(nullptr),
+  profiler(nullptr), chunkviewer(nullptr), sdlinterface(nullptr), config(Json::Value::null),
+  seed(std::default_random_engine::default_seed), run(false), pos_x(0), pos_y(0), zoom(1) {};
 };
 
 

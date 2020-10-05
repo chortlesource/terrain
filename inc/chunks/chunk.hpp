@@ -29,24 +29,12 @@
 // CHUNK Contants
 //
 
-static const std::string _TILE_PATH   = "./asset/tiles16x16.png";
-static const int _TILE_HEIGHT  = 16;
-static const int _TILE_WIDTH   = 16;
-static const int _CHUNK_RES    = 5;
-static const int _CHUNK_HEIGHT = 128;
-static const int _CHUNK_WIDTH  = 128;
-
-static const SDL_Rect tile_map[9] = {
-  { 0 * _TILE_WIDTH, 0, _TILE_WIDTH, _TILE_HEIGHT },
-  { 1 * _TILE_WIDTH, 0, _TILE_WIDTH, _TILE_HEIGHT },
-  { 2 * _TILE_WIDTH, 0, _TILE_WIDTH, _TILE_HEIGHT },
-  { 3 * _TILE_WIDTH, 0, _TILE_WIDTH, _TILE_HEIGHT },
-  { 4 * _TILE_WIDTH, 0, _TILE_WIDTH, _TILE_HEIGHT },
-  { 5 * _TILE_WIDTH, 0, _TILE_WIDTH, _TILE_HEIGHT },
-  { 6 * _TILE_WIDTH, 0, _TILE_WIDTH, _TILE_HEIGHT },
-  { 7 * _TILE_WIDTH, 0, _TILE_WIDTH, _TILE_HEIGHT },
-  { 8 * _TILE_WIDTH, 0, _TILE_WIDTH, _TILE_HEIGHT }
-};
+//static const std::string _TILE_PATH   = "./asset/tiles16x16.png";
+//static const int _TILE_HEIGHT  = 16;
+//static const int _TILE_WIDTH   = 16;
+//static const int _CHUNK_RES    = 5;
+//static const int _CHUNK_HEIGHT = 128;
+//static const int _CHUNK_WIDTH  = 128;
 
 enum class BIOME {
   GRASSLAND, SHRUBLAND, MOORLAND, BEACH,
@@ -64,24 +52,34 @@ enum class BIOME {
 class BASECHUNK {
 
 public:
-  BASECHUNK(unsigned int const& seed, int const& gx, int const& gy) {
-    global_x = _CHUNK_WIDTH * gx;
-    global_y = _CHUNK_HEIGHT * gx;
+  BASECHUNK(STATE const& state, int const& gx, int const& gy) {
+    int chunkw  = state.config["CHUNK"]["CHUNK_WIDTH"].asInt();
+    int chunkh = state.config["CHUNK"]["CHUNK_HEIGHT"].asInt();
+    int chunkres    = state.config["CHUNK"]["CHUNK_RES"].asInt();
 
-    PERLIN perlin(seed);
+    global_x = chunkw * gx;
+    global_y = chunkh * gx;
+
+    PERLIN perlin(state.seed);
+
+    // Configure our vectors
+    biome.resize(chunkh);
+    temps.resize(chunkh);
+    for(auto &it: biome) it.resize(chunkw);
+    for(auto &it: temps) it.resize(chunkw);
 
     // Populate the noise maps
-    for(int y = 0; y <_CHUNK_HEIGHT; y++) {
-      for(int x = 0; x <_CHUNK_WIDTH; x++) {
-        double dx = ((_CHUNK_WIDTH / 2) - x) * ((_CHUNK_WIDTH / 2) - x);
-        double dy = ((_CHUNK_WIDTH / 2) - y) * ((_CHUNK_WIDTH / 2) - y);
-        double d = sqrt(dx + dy) / _CHUNK_WIDTH;
+    for(int y = 0; y < chunkh; y++) {
+      for(int x = 0; x < chunkw; x++) {
+        double dx = ((chunkw / 2) - x) * ((chunkw / 2) - x);
+        double dy = ((chunkw / 2) - y) * ((chunkw / 2) - y);
+        double d = sqrt(dx + dy) / chunkw;
 
-        double nx = 1.0 /_CHUNK_WIDTH;
-        double ny = 1.0 /_CHUNK_HEIGHT;
+        double nx = 1.0 /chunkw;
+        double ny = 1.0 /chunkh;
 
-        double elev = perlin.octave_noise_0_1((x + global_x) * nx * _CHUNK_RES, (y + global_y) * ny * _CHUNK_RES, 0.1, 20);
-        double temp = perlin.octave_noise_0_1((x + global_x) * nx * _CHUNK_RES, (y + global_y) * ny * _CHUNK_RES, 1, 3);
+        double elev = perlin.octave_noise_0_1((x + global_x) * nx * chunkres, (y + global_y) * ny * chunkres, 0.1, 20);
+        double temp = perlin.octave_noise_0_1((x + global_x) * nx * chunkres, (y + global_y) * ny * chunkres, 1, 3);
 
         biome[y][x] = elev - d;
         temps[y][x] = temp;
@@ -93,8 +91,10 @@ public:
 
 protected:
   // Protected BASECHUNK attributes
-  double biome[_CHUNK_HEIGHT][_CHUNK_WIDTH];
-  double temps[_CHUNK_HEIGHT][_CHUNK_WIDTH];
+  std::vector<std::vector<double>> biome;
+  std::vector<std::vector<double>> temps;
+  //double *biome[_CHUNK_HEIGHT][_CHUNK_WIDTH];
+  //double *temps[_CHUNK_HEIGHT][_CHUNK_WIDTH];
 
   int global_x;
   int global_y;
@@ -111,12 +111,12 @@ protected:
 class CHUNK : public BASECHUNK {
 
 public:
-  CHUNK(unsigned int const& seed, int const& gx, int const& gy)
-    : BASECHUNK(seed, gx, gy), initialized(false), tiles(nullptr), chunk(nullptr) {};
+  CHUNK(STATE const& state, int const& gx, int const& gy)
+    : BASECHUNK(state, gx, gy), initialized(false), tiles(nullptr), chunk(nullptr) {};
   ~CHUNK() {};
 
   // Public CHUNK methods
-  void initialize(SDL_Renderer *render);
+  void initialize(STATE const& state);
   void draw(SDL_Rect *rect, SDL_Renderer *render);
   void finalize();
 

@@ -58,7 +58,7 @@ public:
       INFO("UPS :: ", ups_count, " FPS :: ", fps_count);
       ups_count = 0;
       fps_count = 0;
-      accumulator -= 1.0;
+      accumulator = 0;
     }
   }
 

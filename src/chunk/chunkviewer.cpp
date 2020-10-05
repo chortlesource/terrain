@@ -29,8 +29,8 @@
 //
 
 void CHUNKVIEWER::initialize(STATE const& state) {
-  chunk = std::make_shared<CHUNK>(state.seed, 0, 0);
-  chunk->initialize(state.window->get_render());
+  chunk = std::make_shared<CHUNK>(state, 0, 0);
+  chunk->initialize(state);
 
   initialized = true;
 }
@@ -40,7 +40,12 @@ void CHUNKVIEWER::update(STATE const& state) {
   if(!initialized)
     return;
 
-  SDL_Rect dest { state.pos_x, state.pos_y, _CHUNK_WIDTH * _TILE_WIDTH + state.zoom, _CHUNK_HEIGHT * _TILE_WIDTH + state.zoom };
+  int chunkw  = state.config["CHUNK"]["CHUNK_WIDTH"].asInt();
+  int chunkh = state.config["CHUNK"]["CHUNK_HEIGHT"].asInt();
+  int tilew = state.config["TILES"]["TILE_HEIGHT"].asInt();
+  int tileh = state.config["TILES"]["TILE_HEIGHT"].asInt();
+
+  SDL_Rect dest { state.pos_x, state.pos_y, chunkw * tilew + state.zoom, chunkh * tileh + state.zoom };
   chunk->draw(&dest, state.window->get_render());
 }
 

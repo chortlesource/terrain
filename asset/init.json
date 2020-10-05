@@ -1,0 +1,16 @@
+{
+  "INIT": {
+    "APP_WIDTH": 1080,
+    "APP_HEIGHT": 720
+  },
+  "TILES": {
+    "TILE_WIDTH":  16,
+    "TILE_HEIGHT": 16,
+    "TILE_PATH":  "./asset/gfx/tiles.png"
+  },
+  "CHUNK": {
+    "CHUNK_WIDTH": 128,
+    "CHUNK_HEIGHT": 128,
+    "CHUNK_RES": 5
+  }
+}

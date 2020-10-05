@@ -44,6 +44,8 @@
 #include <numeric>
 #include <random>
 #include <type_traits>
+#include <fstream>
+#include <experimental/filesystem>
 
 #include <vector>
 #include <string>
@@ -59,8 +61,6 @@ static const std::string _APP_NAME    = "terrain";
 static const std::string _APP_VERSION = "0.0.1-ALPHA";
 static const std::string _APP_AUTHOR  = "C. M. Short";
 static const std::string _APP_SOURCE  = "http://www.github.com/chortlesoft/terrain";
-static const int _APP_WIDTH  = 800;
-static const int _APP_HEIGHT = 600;
 
 
 /////////////////////////////////////////////////////////////
@@ -68,6 +68,8 @@ static const int _APP_HEIGHT = 600;
 //
 
 // Utilities
+#include "lib/json.hpp"
+
 #include "util/debug.hpp"
 #include "util/cliparse.hpp"
 #include "util/perlin.hpp"
@@ -79,6 +81,7 @@ static const int _APP_HEIGHT = 600;
 #include "chunks/chunk.hpp"
 #include "chunks/chunkviewer.hpp"
 
+#include "sys/io.hpp"
 #include "sys/sdlinterface.hpp"
 #include "sys/system.hpp"
 #include "sys/window.hpp"

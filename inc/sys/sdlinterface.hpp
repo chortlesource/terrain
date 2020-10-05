@@ -52,23 +52,33 @@ public:
           };
         case SDL_KEYDOWN:
           switch(event.key.keysym.sym) {
+            case SDLK_d:
             case SDLK_RIGHT:
               state.pos_x -= 10;
               break;
+            case SDLK_s:
             case SDLK_DOWN:
               state.pos_y -= 10;
               break;
+            case SDLK_a:
             case SDLK_LEFT:
               state.pos_x += 10;
               break;
+            case SDLK_w:
             case SDLK_UP:
               state.pos_y += 10;
               break;
+            case SDLK_e:
             case SDLK_PERIOD:
               state.zoom += 10;
               break;
+            case SDLK_q:
             case SDLK_COMMA:
               state.zoom -= 10;
+              break;
+            case SDLK_z:
+            case SDLK_QUESTION:
+              state.zoom = 0;
               break;
             default:
               break;

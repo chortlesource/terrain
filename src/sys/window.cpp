@@ -28,11 +28,14 @@
 // Public SYSTEM class methods
 //
 
-void WINDOW::initialize() {
+void WINDOW::initialize(STATE const& state) {
   // Initialize the window
-  std::string title = _APP_NAME + " - " + _APP_VERSION;
+  std::string title       = _APP_NAME + " - " + _APP_VERSION;
+  const int window_width  = state.config["INIT"]["APP_WIDTH"].asInt();
+  const int window_height = state.config["INIT"]["APP_HEIGHT"].asInt();
+
   SDLWINDOW_PTR tempwin(SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-    _APP_WIDTH, _APP_HEIGHT, SDL_WINDOW_SHOWN), [=](SDL_Window *window){ SDL_DestroyWindow(window); });
+    window_width, window_height, SDL_WINDOW_SHOWN), [=](SDL_Window *window){ SDL_DestroyWindow(window); });
 
   windowptr = tempwin;
   if(windowptr == nullptr) {
@@ -58,7 +61,7 @@ void WINDOW::initialize() {
   SDL_SetTextureAlphaMod(scanline.get(), 30);
 
 
-  SDL_RenderSetLogicalSize(renderptr.get(), _APP_WIDTH, _APP_HEIGHT);
+  SDL_RenderSetLogicalSize(renderptr.get(), window_width, window_height);
   SDL_SetRenderDrawColor(renderptr.get(), 255, 255, 255, 255);
   SDL_RenderClear(renderptr.get());
   SDL_RenderPresent(renderptr.get());

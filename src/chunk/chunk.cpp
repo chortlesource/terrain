@@ -28,25 +28,44 @@
 // Public CHUNK class methods
 //
 
-void CHUNK::initialize(SDL_Renderer *render) {
+void CHUNK::initialize(STATE const& state) {
   // Load the tiles
-  SDLTEXTURE_PTR temp(IMG_LoadTexture(render, _TILE_PATH.c_str()), [=](SDL_Texture *t){ SDL_DestroyTexture(t); });
+  SDL_Renderer *render = state.window->get_render();
+  int chunkw  = state.config["CHUNK"]["CHUNK_WIDTH"].asInt();
+  int chunkh = state.config["CHUNK"]["CHUNK_HEIGHT"].asInt();
+  int tilew = state.config["TILES"]["TILE_HEIGHT"].asInt();
+  int tileh = state.config["TILES"]["TILE_HEIGHT"].asInt();
+  std::string tilep = state.config["TILES"]["TILE_PATH"].asString();
+
+  const SDL_Rect tile_map[9] = {
+    { 0 * tilew, 0, tilew, tileh },
+    { 1 * tilew, 0, tilew, tileh },
+    { 2 * tilew, 0, tilew, tileh },
+    { 3 * tilew, 0, tilew, tileh },
+    { 4 * tilew, 0, tilew, tileh },
+    { 5 * tilew, 0, tilew, tileh },
+    { 6 * tilew, 0, tilew, tileh },
+    { 7 * tilew, 0, tilew, tileh },
+    { 8 * tilew, 0, tilew, tileh }
+  };
+
+  SDLTEXTURE_PTR temp(IMG_LoadTexture(render, tilep.c_str()), [=](SDL_Texture *t){ SDL_DestroyTexture(t); });
   tiles = temp;
 
   // Create our new texture
   SDLTEXTURE_PTR ch(SDL_CreateTexture(render, SDL_PIXELFORMAT_RGBA8888,
-  SDL_TEXTUREACCESS_TARGET, _CHUNK_WIDTH * _TILE_WIDTH, _CHUNK_HEIGHT * _TILE_HEIGHT)
+  SDL_TEXTUREACCESS_TARGET, chunkw * tilew, chunkh * tileh)
   , [=](SDL_Texture *t){SDL_DestroyTexture(t);});
   chunk = ch;
 
   // Configure to draw to our chunk
   SDL_SetRenderTarget(render, chunk.get());
 
-  for(int y = 0; y < _CHUNK_HEIGHT; y++) {
-     for(int x = 0; x < _CHUNK_WIDTH; x++) {
+  for(int y = 0; y < chunkh; y++) {
+     for(int x = 0; x < chunkw; x++) {
        // Get the biome in use
        BIOME b = get_biome(biome[y][x], temps[y][x]);
-       SDL_Rect dst {x * _TILE_WIDTH, y * _TILE_HEIGHT, _TILE_WIDTH, _TILE_HEIGHT };
+       SDL_Rect dst {x * tilew, y * tileh, tilew, tileh };
 
        switch(b) {
          case BIOME::GRASSLAND:

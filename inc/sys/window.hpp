@@ -36,7 +36,7 @@ class WINDOW {
 
 public:
   // Public WINDOW methods
-  void initialize();
+  void initialize(STATE const& state);
   void update();
   void finalize();
 
