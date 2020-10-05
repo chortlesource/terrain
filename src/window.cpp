@@ -51,6 +51,13 @@ void WINDOW::initialize() {
     return;
   }
 
+  SDLTEXTURE_PTR temptex(IMG_LoadTexture(renderptr.get(), "./asset/scanline.png"), [=](SDL_Texture *t){ SDL_DestroyTexture(t); });
+  scanline = temptex;
+
+  SDL_SetTextureBlendMode(scanline.get(), SDL_BLENDMODE_BLEND);
+  SDL_SetTextureAlphaMod(scanline.get(), 30);
+
+
   SDL_RenderSetLogicalSize(renderptr.get(), _APP_WIDTH, _APP_HEIGHT);
   SDL_SetRenderDrawColor(renderptr.get(), 255, 255, 255, 255);
   SDL_RenderClear(renderptr.get());
@@ -64,6 +71,7 @@ void WINDOW::update() {
   if(!initialized)
     return;
 
+  SDL_RenderCopy(renderptr.get(), scanline.get(), NULL, NULL);
   SDL_RenderPresent(renderptr.get());
   SDL_SetRenderDrawColor(renderptr.get(), 0, 0, 0, 255);
   SDL_RenderClear(renderptr.get());

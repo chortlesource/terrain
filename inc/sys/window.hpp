@@ -45,9 +45,10 @@ public:
 
 private:
   // Private WINDOW attributes
-  bool          initialized;
-  SDLWINDOW_PTR windowptr;
-  SDLRENDER_PTR renderptr;
+  bool           initialized;
+  SDLWINDOW_PTR  windowptr;
+  SDLRENDER_PTR  renderptr;
+  SDLTEXTURE_PTR scanline;
 
 };
 
