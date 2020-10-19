@@ -78,6 +78,7 @@ static const std::string _APP_SOURCE  = "http://www.github.com/chortlesoft/terra
 #include "util/types.hpp"
 #include "util/state.hpp"
 
+#include "world/tileset.hpp"
 #include "world/world.hpp"
 #include "world/worldviewer.hpp"
 

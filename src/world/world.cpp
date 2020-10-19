@@ -32,21 +32,7 @@ void WORLD::initialize(STATE const& state) {
   // Temporary Helper variables
   SDL_Renderer *render = state.window->get_render();
 
-  const SDL_Rect tile_map[9] = {
-    { 0 * tilew, 0, tilew, tileh },
-    { 1 * tilew, 0, tilew, tileh },
-    { 2 * tilew, 0, tilew, tileh },
-    { 3 * tilew, 0, tilew, tileh },
-    { 4 * tilew, 0, tilew, tileh },
-    { 5 * tilew, 0, tilew, tileh },
-    { 6 * tilew, 0, tilew, tileh },
-    { 7 * tilew, 0, tilew, tileh },
-    { 8 * tilew, 0, tilew, tileh }
-  };
-
-  // Load the tilesheet
-  SDLTEXTURE_PTR ttemp(IMG_LoadTexture(render, tile_path.c_str()), [=](SDL_Texture *t){ SDL_DestroyTexture(t); });
-  tiles = ttemp;
+  tiles.initialize(state);
 
   // Create the world map texture
   SDLTEXTURE_PTR wrld(SDL_CreateTexture(render, SDL_PIXELFORMAT_RGBA8888,
@@ -66,47 +52,47 @@ void WORLD::initialize(STATE const& state) {
        switch(b) {
          case BIOME::GRASSLAND:
            {
-             SDL_RenderCopy(render, tiles.get(), &tile_map[0], &dst);
+             tiles.draw(render, &dst, "GRASSLAND");
            }
            break;
          case BIOME::SHRUBLAND:
            {
-             SDL_RenderCopy(render, tiles.get(), &tile_map[1], &dst);
+             tiles.draw(render, &dst, "SHRUBLAND");
            }
            break;
          case BIOME::MOORLAND:
            {
-             SDL_RenderCopy(render, tiles.get(), &tile_map[2], &dst);
+             tiles.draw(render, &dst, "MOORLAND");
            }
            break;
          case BIOME::BEACH:
            {
-             SDL_RenderCopy(render, tiles.get(), &tile_map[3], &dst);
+             tiles.draw(render, &dst, "BEACH");
            }
            break;
          case BIOME::DIRT:
            {
-             SDL_RenderCopy(render, tiles.get(), &tile_map[4], &dst);
+             tiles.draw(render, &dst, "DIRT");
            }
            break;
          case BIOME::TUNDRA:
            {
-             SDL_RenderCopy(render, tiles.get(), &tile_map[5], &dst);
+             tiles.draw(render, &dst, "TUNDRA");
            }
            break;
          case BIOME::ROCKY:
            {
-             SDL_RenderCopy(render, tiles.get(), &tile_map[6], &dst);
+             tiles.draw(render, &dst, "ROCKY");
            }
            break;
          case BIOME::MOUNTAIN:
            {
-             SDL_RenderCopy(render, tiles.get(), &tile_map[7], &dst);
+             tiles.draw(render, &dst, "MOUNTAIN");
            }
            break;
          case BIOME::WATER:
            {
-             SDL_RenderCopy(render, tiles.get(), &tile_map[8], &dst);
+             tiles.draw(render, &dst, "WATER");
            }
            break;
          default:
@@ -132,10 +118,9 @@ void WORLD::draw(SDL_Renderer *render, SDL_Rect *rect) {
 
 void WORLD::finalize() {
   initialized = false;
-  tiles       = nullptr;
+  tiles.finalize();
   world       = nullptr;
 
-  tile_path   = "";
   tilew       = 0;
   tileh       = 0;
   worldw      = 0;

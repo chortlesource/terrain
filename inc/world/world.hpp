@@ -47,7 +47,6 @@ class BASEWORLD {
 
 protected:
   // Private BASEWORLD attributes
-  std::string tile_path;
   int         tilew;
   int         tileh;
   int         worldw;
@@ -61,9 +60,8 @@ public:
   // Public BASEWORLD methods
   BASEWORLD(STATE const& state) {
     // Initialize our variables
-    tile_path = state.config["TILE"]["TILE_PATH"].asString();
-    tilew     = state.config["TILE"]["TILE_WIDTH"].asInt();
-    tileh     = state.config["TILE"]["TILE_HEIGHT"].asInt();
+    tilew     = state.tilecfg["TILE_WIDTH"].asInt();
+    tileh     = state.tilecfg["TILE_HEIGHT"].asInt();
     worldw    = state.config["WORLD"]["WORLD_WIDTH"].asInt();
     worldh    = state.config["WORLD"]["WORLD_HEIGHT"].asInt();
     world_res = state.config["WORLD"]["WORLD_RES"].asInt();
@@ -115,7 +113,7 @@ class WORLD : public BASEWORLD {
 
 public:
   // Public WORLD methods
-  WORLD(STATE const& state) : BASEWORLD(state), initialized(false), tiles(nullptr), world(nullptr) {};
+  WORLD(STATE const& state) : BASEWORLD(state), initialized(false), tiles(), world(nullptr) {};
 
   void initialize(STATE const& state);
   void draw(SDL_Renderer *render, SDL_Rect *rect);
@@ -124,7 +122,8 @@ public:
 private:
   // Private WORLD attributes
   bool initialized;
-  SDLTEXTURE_PTR tiles;
+  //SDLTEXTURE_PTR tiles;
+  TILESET        tiles;
   SDLTEXTURE_PTR world;
 
   // Private WORLD methods

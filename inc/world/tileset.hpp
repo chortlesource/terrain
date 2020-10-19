@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// terrain - state.hpp
+// terrain - tileset.hpp
 //
 // Copyright (c) 2020 Christopher M. Short
 //
@@ -21,37 +21,39 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
-#ifndef _STATE_HPP
-#define _STATE_HPP
+#ifndef _TILESET_HPP
+#define _TILESET_HPP
 
 
 /////////////////////////////////////////////////////////////
-// STATE Struct
+// TILESET Class
 //
-// Used to store SYSTEM components for convenient distribution
+// The TILESET class handles the tileset and enables the easy
+// render of specific objects within the tilesheet using a
+// simple coordinate system
 
 
-struct STATE {
-  STATUS              status;
-  WINDOW_PTR          window;
-  IO_PTR              io;
-  TIMER_PTR           timer;
-  PROFILER_PTR        profiler;
-  WORLDVIEWER_PTR     worldviewer;
-  SDLINTER_PTR        sdlinterface;
+class TILESET {
+public:
+  // Public TILESET methods
+  TILESET() {};
+  ~TILESET() {};
 
-  Json::Value         config;
-  Json::Value         tilecfg;
-  unsigned int        seed;
-  bool                run;
-  int                 pos_x;
-  int                 pos_y;
-  int                 zoom;
+  void initialize(STATE const& state);
+  void draw(SDL_Renderer *render, SDL_Rect *dest, std::string const& desc);
+  void finalize();
 
-  STATE() : status(STATUS::INIT), window(nullptr), io(nullptr), timer(nullptr),
-  profiler(nullptr), worldviewer(nullptr), sdlinterface(nullptr), config(Json::Value::null),
-  seed(std::default_random_engine::default_seed), run(false), pos_x(0), pos_y(0), zoom(1) {};
+private:
+  bool           initialized;
+  int            tilew;
+  int            tileh;
+  unsigned int   size;
+  std::string    tilesrc;
+
+  SDLTEXTURE_PTR                  tiles;
+  std::map<std::string, SDL_Rect> tilemap;
+
 };
 
 
-#endif // _STATE_HPP
+#endif // _TILESET_HPP

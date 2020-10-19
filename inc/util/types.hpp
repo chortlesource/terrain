@@ -34,6 +34,7 @@ class WINDOW;
 class IO;
 class TIMER;
 class PROFILER;
+class TILESET;
 class WORLD;
 class WORLDVIEWER;
 class SDLINTERFACE;
@@ -58,6 +59,7 @@ using SDLWINDOW_PTR     = std::shared_ptr<SDL_Window>;
 using SDLTEXTURE_PTR    = std::shared_ptr<SDL_Texture>;
 using SDLRENDER_PTR     = std::shared_ptr<SDL_Renderer>;
 using NOISEMAP          = std::vector<std::vector<double>>;
+using TILEMAP           = std::map<std::string, SDL_Rect>;
 
 
 /////////////////////////////////////////////////////////////

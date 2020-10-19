@@ -1,0 +1,52 @@
+{
+	"TILE_WIDTH": 16,
+	"TILE_HEIGHT": 16,
+	"TILE_NUM": 9,
+	"TILE_SRC": "./asset/gfx/tiles.png",
+	"TILE_SET": [{
+			"X": 0,
+			"Y": 0,
+			"DESC": "GRASSLAND"
+		},
+		{
+			"X": 1,
+			"Y": 0,
+			"DESC": "SHRUBLAND"
+		},
+		{
+			"X": 2,
+			"Y": 0,
+			"DESC": "MOORLAND"
+		},
+		{
+			"X": 3,
+			"Y": 0,
+			"DESC": "BEACH"
+		},
+		{
+			"X": 4,
+			"Y": 0,
+			"DESC": "DIRT"
+		},
+		{
+			"X": 5,
+			"Y": 0,
+			"DESC": "TUNDRA"
+		},
+		{
+			"X": 6,
+			"Y": 0,
+			"DESC": "ROCKY"
+		},
+		{
+			"X": 7,
+			"Y": 0,
+			"DESC": "MOUNTAIN"
+		},
+		{
+			"X": 8,
+			"Y": 0,
+			"DESC": "WATER"
+		}
+	]
+}

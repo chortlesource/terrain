@@ -62,6 +62,10 @@ void SYSTEM::initialize(int const& argc, const char *argv[]) {
   if(!state.io->load_json("./asset/init.json", state.config))
     use_default_config();
 
+  // Load the tile configuration
+  if(!state.io->load_json("./asset/tiles/tiles.json", state.tilecfg))
+    ERROR("Unable to load tile configuration");
+
   // Initialize the state components
   state.window->initialize(state);
   state.worldviewer->initialize(state);
