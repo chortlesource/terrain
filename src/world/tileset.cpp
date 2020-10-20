@@ -25,7 +25,7 @@
 
 
 /////////////////////////////////////////////////////////////
-// Public WORLD methods
+// Public TILESET methods
 //
 
 void TILESET::initialize(STATE const& state) {

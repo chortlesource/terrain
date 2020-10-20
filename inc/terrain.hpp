@@ -50,6 +50,7 @@
 #include <vector>
 #include <string>
 #include <array>
+#include <tuple>
 #include <mutex>
 
 
@@ -79,6 +80,7 @@ static const std::string _APP_SOURCE  = "http://www.github.com/chortlesoft/terra
 #include "util/state.hpp"
 
 #include "world/tileset.hpp"
+#include "world/biomeset.hpp"
 #include "world/world.hpp"
 #include "world/worldviewer.hpp"
 

@@ -60,6 +60,7 @@ using SDLTEXTURE_PTR    = std::shared_ptr<SDL_Texture>;
 using SDLRENDER_PTR     = std::shared_ptr<SDL_Renderer>;
 using NOISEMAP          = std::vector<std::vector<double>>;
 using TILEMAP           = std::map<std::string, SDL_Rect>;
+using BIOMELIST         = std::vector<std::tuple<double, std::string>>;
 
 
 /////////////////////////////////////////////////////////////

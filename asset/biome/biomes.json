@@ -1,0 +1,86 @@
+{
+	"BIOMES": [{
+		"VALUE": 0.7,
+		"RANGE": [{
+				"VALUE": 0.3,
+				"DESC": "TUNDRA"
+			},
+			{
+				"VALUE": 0.5,
+				"DESC": "ROCKY"
+			},
+			{
+				"VALUE": 1.0,
+				"DESC": "MOUNTAIN"
+			}
+		]
+	}, {
+		"VALUE": 0.5,
+		"RANGE": [{
+				"VALUE": 0.3,
+				"DESC": "GRASSLAND"
+			},
+			{
+				"VALUE": 0.5,
+				"DESC": "SHRUBLAND"
+			},
+			{
+				"VALUE": 0.8,
+				"DESC": "MOORLAND"
+			},
+			{
+				"VALUE": 1.0,
+				"DESC": "WATER"
+			}
+		]
+	}, {
+		"VALUE": 0.27,
+		"RANGE": [{
+				"VALUE": 0.3,
+				"DESC": "DIRT"
+			},
+			{
+				"VALUE": 0.4,
+				"DESC": "GRASSLAND"
+			},
+			{
+				"VALUE": 0.5,
+				"DESC": "SHRUBLAND"
+			},
+			{
+				"VALUE": 0.9,
+				"DESC": "MOORLAND"
+			},
+			{
+				"VALUE": 1.0,
+				"DESC": "WATER"
+			}
+		]
+	}],
+	"ELEVATION": [{
+			"VALUE": 0.2,
+			"DESC": "WATER"
+		},
+		{
+			"VALUE": 0.27,
+			"DESC": "BEACH"
+		}
+	],
+	"TEMPERATURE": [{
+			"VALUE": 0.30,
+			"DESC": "DIRT"
+		},
+		{
+			"VALUE": 0.33,
+			"DESC": "GRASSLAND"
+		},
+		{
+			"VALUE": 0.66,
+			"DESC": "SHRUBLAND"
+		},
+		{
+			"VALUE": 1.0,
+			"DESC": "MOORLAND"
+		}
+	]
+}

@@ -33,6 +33,7 @@ void WORLD::initialize(STATE const& state) {
   SDL_Renderer *render = state.window->get_render();
 
   tiles.initialize(state);
+  biomeset.initialize(state);
 
   // Create the world map texture
   SDLTEXTURE_PTR wrld(SDL_CreateTexture(render, SDL_PIXELFORMAT_RGBA8888,
@@ -46,8 +47,11 @@ void WORLD::initialize(STATE const& state) {
   for(int y = 0; y < worldh; y++) {
      for(int x = 0; x < worldw; x++) {
        // Get the biome in use
-       BIOME b = get_biome(biome[y][x], temps[y][x]);
        SDL_Rect dst {x * tilew, y * tileh, tilew, tileh };
+       tiles.draw(render, &dst, biomeset.get(biome[y][x], temps[y][x]));
+
+       /*
+       BIOME b = get_biome(biome[y][x], temps[y][x]);
 
        switch(b) {
          case BIOME::GRASSLAND:
@@ -97,10 +101,9 @@ void WORLD::initialize(STATE const& state) {
            break;
          default:
            break;
-       };
+       };*/
      }
    }
-
   // Reset to the default render target
   SDL_SetRenderTarget(render, NULL);
 

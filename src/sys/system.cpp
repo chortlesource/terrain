@@ -66,6 +66,10 @@ void SYSTEM::initialize(int const& argc, const char *argv[]) {
   if(!state.io->load_json("./asset/tiles/tiles.json", state.tilecfg))
     ERROR("Unable to load tile configuration");
 
+  // Load the biome configuration
+  if(!state.io->load_json("./asset/biome/biomes.json", state.biomecfg))
+    ERROR("Unable to load biome configuration");
+
   // Initialize the state components
   state.window->initialize(state);
   state.worldviewer->initialize(state);

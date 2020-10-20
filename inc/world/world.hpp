@@ -113,7 +113,7 @@ class WORLD : public BASEWORLD {
 
 public:
   // Public WORLD methods
-  WORLD(STATE const& state) : BASEWORLD(state), initialized(false), tiles(), world(nullptr) {};
+  WORLD(STATE const& state) : BASEWORLD(state), initialized(false), tiles(), biomeset(), world(nullptr) {};
 
   void initialize(STATE const& state);
   void draw(SDL_Renderer *render, SDL_Rect *rect);
@@ -124,6 +124,7 @@ private:
   bool initialized;
   //SDLTEXTURE_PTR tiles;
   TILESET        tiles;
+  BIOMESET       biomeset;
   SDLTEXTURE_PTR world;
 
   // Private WORLD methods

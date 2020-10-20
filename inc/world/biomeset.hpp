@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// terrain - state.hpp
+// terrain - biomeset.hpp
 //
 // Copyright (c) 2020 Christopher M. Short
 //
@@ -21,38 +21,33 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
-#ifndef _STATE_HPP
-#define _STATE_HPP
+#ifndef _BIOMESET_HPP
+#define _BIOMESET_HPP
 
 
 /////////////////////////////////////////////////////////////
-// STATE Struct
+// BIOMESET Class
 //
-// Used to store SYSTEM components for convenient distribution
+// The BIOMESET class processes values to clarify what biome
+// should be rendered thereby returning the name of the biome
 
 
-struct STATE {
-  STATUS              status;
-  WINDOW_PTR          window;
-  IO_PTR              io;
-  TIMER_PTR           timer;
-  PROFILER_PTR        profiler;
-  WORLDVIEWER_PTR     worldviewer;
-  SDLINTER_PTR        sdlinterface;
+class BIOMESET {
+public:
+  // Public BIOMESET methods
+  void initialize(STATE const& state);
+  std::string const& get(double const& b, double const& m);
+  void finalize();
 
-  Json::Value         config;
-  Json::Value         tilecfg;
-  Json::Value         biomecfg;
-  unsigned int        seed;
-  bool                run;
-  int                 pos_x;
-  int                 pos_y;
-  int                 zoom;
+private:
+  // Private BIOMESET attributes
+  bool                                         initialized;
+  std::vector<double>                          ranges;
+  std::map<double, BIOMELIST>                  rangemap;
+  std::vector<std::tuple<double, std::string>> elev;
+  std::vector<std::tuple<double, std::string>> temp;
 
-  STATE() : status(STATUS::INIT), window(nullptr), io(nullptr), timer(nullptr),
-  profiler(nullptr), worldviewer(nullptr), sdlinterface(nullptr), config(Json::Value::null),
-  seed(std::default_random_engine::default_seed), run(false), pos_x(0), pos_y(0), zoom(1) {};
 };
 
 
-#endif // _STATE_HPP
+#endif // _BIOMESET_HPP
