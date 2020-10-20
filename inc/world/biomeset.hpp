@@ -46,6 +46,7 @@ private:
   std::map<double, BIOMELIST>                  rangemap;
   std::vector<std::tuple<double, std::string>> elev;
   std::vector<std::tuple<double, std::string>> temp;
+  std::string                                  empty;
 
 };
 

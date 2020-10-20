@@ -5,7 +5,7 @@
 
 ## Description
 
-Terrain is a simple procedural world terrain generator that utilises perlin noise to create a world map in c++. I have attempted to optimise where possible but expect improvements can be made. There are various configuration setting which can be modified within `init.json` to save recompilation.
+Terrain is a simple procedural world terrain generator that utilises perlin noise to create a world map in c++. I have attempted to optimise where possible but no doubt improvements can be made. The application behaviour can be modified by configuring the relevant json files.
 
 ## Dependencies
 - C++17
@@ -21,12 +21,19 @@ First clone the directory, create a build folder and then call `cmake ..`. You c
 - `mkdir build && cd build`
 - `cmake ..` or `cmake .. -DCMAKE_BUILD_TYPE=Debug`
 
-
 ## Usage
 
 You can either run the application `terrain` using the default seed or supply a seed using `terrain -s <SEED>`. For example:
 
 `./terrain` or `./terrain -s 12345`
+
+## Configuration
+
+The intention is that the world generator can be easily adjusted. As such within the asset folder you will find three json files.
+
+- `asset/init.json` to configure application variables
+- `asset/tiles/tiles.json` to configure tile variables
+- `asset/biome/biome.json` to configure biome variables
 
 ## Licence
 

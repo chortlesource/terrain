@@ -65,7 +65,7 @@ void BIOMESET::initialize(STATE const& state) {
 
 std::string const& BIOMESET::get(double const& b, double const& m) {
   if(!initialized)
-    return "";
+    return empty;
 
   // First check the elevation list
   for(auto &it: elev) {
@@ -91,7 +91,7 @@ std::string const& BIOMESET::get(double const& b, double const& m) {
       return std::get<1>(it);
   }
 
-  return "";
+  return empty;
 }
 
 

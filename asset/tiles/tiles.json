@@ -2,7 +2,7 @@
 	"TILE_WIDTH": 16,
 	"TILE_HEIGHT": 16,
 	"TILE_NUM": 9,
-	"TILE_SRC": "./asset/gfx/tiles.png",
+	"TILE_SRC": "./asset/tiles/tiles.png",
 	"TILE_SET": [{
 			"X": 0,
 			"Y": 0,

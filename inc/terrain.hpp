@@ -59,7 +59,7 @@
 //
 
 static const std::string _APP_NAME    = "terrain";
-static const std::string _APP_VERSION = "0.0.1-ALPHA";
+static const std::string _APP_VERSION = "0.0.2-ALPHA";
 static const std::string _APP_AUTHOR  = "C. M. Short";
 static const std::string _APP_SOURCE  = "http://www.github.com/chortlesoft/terrain";
 
